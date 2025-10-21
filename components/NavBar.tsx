@@ -16,6 +16,7 @@ const NavBar = () => {
                 bg-[#512fa754]
                 opacity-90
                 navbar-active-hover
+                border-1 border-[#512fa7]
                 '
             >
                 <h1

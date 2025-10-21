@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
-import "@/styles/navbar.css";
+import "@/styles/navbar.scss";
 
 const NavBar = () => {
     return (

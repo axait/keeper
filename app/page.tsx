@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
     <NavBar />
-    Home: Keeper
+    <br />
     <TodoList />
 
     </>

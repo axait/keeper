@@ -1,0 +1,62 @@
+// now customize checkbox
+// now code todo component.
+
+
+// input[type="checkbox"] {
+//   width: 21px;
+//   height:21px;
+//   accent-color: #3d2378;
+//   border-radius: 100%;
+// }
+
+:root {
+    --checkbox-size: 26px;
+}
+
+.form-control {
+    font-family: system-ui, sans-serif;
+}
+
+input[type="checkbox"] {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: transparent;
+    /* Not removed via appearance */
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
+    border: 2px solid #4f46e5;
+    border-radius: var(--checkbox-size);
+    transform: translateY(-2px);
+    display: grid;
+    place-content: center;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: calc(var(--checkbox-size) / 1.8);
+    height: calc(var(--checkbox-size) / 1.8);
+    transform: scale(0);
+    transition: 90ms transform ease-in-out;
+    box-shadow: inset 2px 2px var(--form-control-color);
+    border-radius: var(--checkbox-size);
+
+    background-color: #4f46e5;
+}
+
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+
+
+// -----------------Todo_Complete_Displayer-------------------
+
+.todo-complete-displayer:active,
+.todo-complete-displayer:hover {
+    height: 200px;
+}

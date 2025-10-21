@@ -17,6 +17,9 @@ const TodoList = () => {
         >
             <FilterBar/>
             <Todo/>
+            <Todo/>
+            <Todo/>
+            <Todo/>
             
         </ul>
       

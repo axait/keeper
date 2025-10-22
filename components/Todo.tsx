@@ -1,12 +1,16 @@
 "use client";
 
-import React from 'react'
+import React, { useState } from 'react'
 import "@/styles/Todo.scss";
 import "@/styles/InputField.scss";
 import { TodosType } from '@/types/TodosType';
 
 
 function Todo({ key, title, description, date, time, status }: TodosType) {
+    
+    const [isExpanded, setIsExpanded] = useState(false);
+    
+    console.log(key)
     return (
         <>
             {/* COMPLETE TODO FOR DETAIL KEEPER */}
@@ -19,7 +23,9 @@ function Todo({ key, title, description, date, time, status }: TodosType) {
                 py-3
                 rounded 
                 '
+                onClick={() => setIsExpanded(!isExpanded)}
             >
+                {isExpanded}
                 <div className='flex items-center' >
                     {/* INPUT FIELD */}
                     <label

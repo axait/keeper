@@ -1,6 +1,7 @@
 
 export type TodosType = {
-    key: number | string,
+    key?: number | string,
+    _id?: number | string,
     title: string,
     description: string,
     date: string,

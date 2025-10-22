@@ -4,7 +4,7 @@ import React from 'react'
 import "@/styles/Todo.scss";
 
 
-function Todo({title, description, date, time, tags, status}:{
+function Todo({title, description, date, time, status}:{
     title: string,
     description: string,
     date: string,

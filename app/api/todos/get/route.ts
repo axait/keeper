@@ -1,14 +1,13 @@
-import { NextResponse } from "next/server";
-import { connectToDB } from "@/lib/mongodb";
-import { Todo } from "@/models/Todo";
-import { TodosType } from "@/types/TodosType.ts";
+import { MongoClient } from "mongodb";
 
 export async function GET() {
-  try {
-    await connectToDB();
-    const todos: TodosType[] = await Todo.find();
-    return NextResponse.json({ success: true, todos });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message });
-  }
+  const client = await MongoClient.connect(process.env.MONGODB_URI);
+  const db = client.db(); // Automatically uses the one from URI
+
+  console.log("✅ Connected to DB:", db.databaseName);
+
+  const todos = await db.collection("todos").find().toArray();
+  await client.close();
+
+  return Response.json(todos);
 }

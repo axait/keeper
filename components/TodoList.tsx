@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import FilterBar from './FilterBar';
 import Todo from './Todo';
-import { type TodosType } from './Todo';
+import { TodosType } from '@/types/TodosType';
 import "@/styles/todo_list.scss";
 
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 import "@/styles/navbar.scss";
 
 const NavBar = () => {
@@ -21,7 +22,7 @@ const NavBar = () => {
             >
                 <h1
                     className='irish-grover-regular'
-                >Keeper</h1>
+                ><Link href="/">Keeper</Link></h1>
                 <ul
                     className='
                 flex gap-1

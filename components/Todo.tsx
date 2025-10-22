@@ -3,15 +3,7 @@
 import React from 'react'
 import "@/styles/Todo.scss";
 import "@/styles/InputField.scss";
-
-export type TodosType = {
-    key: number | string,
-    title: string,
-    description: string,
-    date: string,
-    time: string,
-    status: "InComplete" | "Completed"
-}
+import { TodosType } from '@/types/TodosType';
 
 
 function Todo({ key, title, description, date, time, status }: TodosType) {
@@ -113,7 +105,7 @@ function Todo({ key, title, description, date, time, status }: TodosType) {
                         mt-2 mb-1
                         
                         '
-                    >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum corrupti laborum delectus culpa officia earum distinctio facere! Inventore, suscipit voluptatibus eveniet, veritatis fuga tempore temporibus recusandae repellendus maiores reprehenderit harum facilis sint exercitationem nostrum dolorem eius quos aut ea pariatur, eligendi laborum quia deleniti? Itaque, a. Sit hic velit repudiandae.</span>
+                    >{description}</span>
 
                 </div>
 

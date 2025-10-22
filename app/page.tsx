@@ -1,14 +1,11 @@
-import NavBar from "@/components/NavBar";
-import TodoList from "@/components/TodoList";
 
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-  return (
-    <>
-    <NavBar />
-    <br />
-    <TodoList />
+const Page = () => {
 
-    </>
-  );
+    redirect('/todo'); // Temporary redirect (307)
+
 }
+
+export default Page
+

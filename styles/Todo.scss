@@ -1,15 +1,20 @@
-// now customize checkbox
-// now code todo component.
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=TASA+Orbiter:wght@400..800&display=swap');
 
 
-// input[type="checkbox"] {
-//   width: 21px;
-//   height:21px;
-//   accent-color: #3d2378;
-//   border-radius: 100%;
-// }
+.arima-regular {
+  font-family: "Arima", system-ui !important;
+  font-optical-sizing: auto;
+  font-weight: 450;
+  font-style: normal;
+}
 
-// -----------------Todo_Complete_Displayer-------------------
+.tasa-orbiter-regular {
+  font-family: "TASA Orbiter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
 
 .todo-complete-displayer:active,
 .todo-complete-displayer:hover {

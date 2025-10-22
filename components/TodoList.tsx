@@ -17,25 +17,25 @@ const TodoList = () => {
                 key: 1,
                 title: "Buy Milk",
                 description: "Buy milk from the AK store",
-                date: "2023-05-15",
-                time: "10:00 AM",
+                date: "01/Jan",
+                time: "10:00AM",
                 status: "Completed"
             },
             {
                 key: 2,
                 title: "Buy Bread",
                 description: "Buy bread from the local bakery",
-                date: "2023-05-16",
-                time: "11:00 AM",
-                status: "InCompleted"
+                date: "24/May",
+                time: "11:00AM",
+                status: "InComplete"
             },
             {
                 key: 3,
                 title: "Buy Eggs",
                 description: "Buy eggs from the market",
-                date: "2023-05-17",
-                time: "12:00 PM",
-                status: "InCompleted"
+                date: "17/Dec",
+                time: "12:00PM",
+                status: "InComplete"
             }
         ]);
     }, [])

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document, models } from "mongoose";
 
 interface ISession extends Document {
     sessionId: string,
@@ -21,4 +21,4 @@ const sessionSchema = new Schema<ISession>(
     { timestamps: true }
 );
 
-export const sessionModel = mongoose.models.session || mongoose.model<ISession>("session", sessionSchema);
+export const sessionModel = models.Session || mongoose.model<ISession>("Session", sessionSchema);

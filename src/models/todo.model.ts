@@ -1,4 +1,4 @@
-import mongoose, { Schema, models } from "mongoose";
+import mongoose, { Schema, Document, models } from "mongoose";
 
 
 export interface ITodo extends Document {
@@ -27,4 +27,4 @@ const TodoSchema = new Schema<ITodo>(
     { timestamps: true }
 );
 
-export const todoModel = models.todo || mongoose.model<ITodo>("todo", TodoSchema);
+export const todoModel = models.Todo || mongoose.model<ITodo>("Todo", TodoSchema);

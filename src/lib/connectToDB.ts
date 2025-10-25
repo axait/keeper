@@ -15,7 +15,7 @@ export const connectToDB = async () => {
   };
 
   try {
-    const db = await mongoose.connect(MONGODB_URI);
+    const db = await mongoose.connect(MONGODB_URI, { dbName: "keeperDB"});
     isConnected = true;
     console.log("✅ MongoDB  Connected:", db.connection.name);
     return ;

@@ -7,8 +7,6 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 export async function mySignJwt(payload: any): Promise<string> {
     const now = Math.floor(Date.now() / 1000)
 
-    console.log("sign token utility")
-
     const token = await new SignJWT({
         ...payload,
         iat: now,
@@ -26,8 +24,7 @@ export async function mySignJwt(payload: any): Promise<string> {
 }
 
 
-export async function myVerifyJwt(token: string): Promise<{ valid: boolean, data: null | object }> {
-    console.log("verify token utility")
+export async function myVerifyJwt(token: string): Promise<{ valid: boolean, payload: string[] | number[] | null }> {
 
     try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,12 +34,12 @@ export async function myVerifyJwt(token: string): Promise<{ valid: boolean, data
         })
         logMe(payload)
 
-        return { valid: true, data: payload };
+        return { valid: true, payload };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         logMe(error.message)
 
-        return { valid: false, data: null };
+        return { valid: false, payload: null };
     }
 }
 

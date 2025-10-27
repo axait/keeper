@@ -1,9 +1,10 @@
 import connectToDB from "@/src/lib/connectToDB";
-import { SignJWT } from "jose";
 import { logMe } from "@/src/lib/log";
 import { responseFailure, responseSuccess } from "@/src/lib/response";
 import { userModel } from "@/src/models/user.model";
 import { sessionModel } from "@/src/models/session.model";
+import { mySignJwt, myVerifyJwt } from "@/src/lib/jwt";
+import { v4 as uuidv4 } from "uuid";
 // import { NextResponse } from "next/server"
 
 
@@ -39,37 +40,44 @@ export async function POST(req: Request) {
             return responseFailure("InValid Credentials")
         }
 
+        logMe("User has been verified")
+        
+        logMe("Generating sessionId")
+        const sessionId = uuidv4();
+        FIXME: save sessionId in database AsyncLocalStorage.
+
         // DebugMe
         logMe("User Logged In:")
         logMe(`\t${existingUser.email}`)
         logMe(`\t${existingUser.password}`)
 
+
         const now = Math.floor(Date.now() / 1000);
         
+
         const dataToSign = {
             userId: existingUser.userId,
             email: existingUser.email,
-            iat: now ,
+            sessionId: sessionId,
+            iat: now,
             exp: now + 60  // 60seconds life
         }
-        const dataToSignJson = JSON.stringify(dataToSign);
-        logMe(dataToSignJson);
-        const token = jwt.sign(dataToSignJson, "jwtSecretKey", { exp: 60 * 60 })
-        logMe(jwtSecretKey)
+
+        const token = await mySignJwt(dataToSign);
         logMe(token)
 
-        logMe(jwt.verify(token, "jwtSecretKey"))
+        // const verificationResult = await myVerifyJwt(token);
+        // logMe(JSON.stringify(verificationResult, null, 2));
 
-
-        // localStorage.setItem("token", token)
-
-        FIXME: delete existingUser.password
-
-        return responseSuccess(`Logged In succesfully ${existingUser.email}`, { userDetail: existingUser, token });
+        return responseSuccess(`Logged In succesfully ${existingUser.email}`, { token });
 
 
     } catch (error) {
         console.log(`ERROR: ${error}`)
         return responseFailure(`Error occured. ${error}`)
     }
+}
+
+function uuid4() {
+    throw new Error("Function not implemented.");
 }

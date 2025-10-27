@@ -1,4 +1,5 @@
 import connectToDB from "@/src/lib/connectToDB";
+import { logMe } from "@/src/lib/log";
 import { responseFailure, responseSuccess } from "@/src/lib/response";
 import { userModel } from "@/src/models/user.model";
 import { v4 as uuidv4 } from "uuid";
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
 
         const existingUser = await userModel.findOne({ email });
         if (existingUser) {
-            return responseFailure("User already exists with this email.");
+            return responseFailure("User already exists.");
         }
 
         const instance = await new userModel({
@@ -39,7 +40,11 @@ export async function POST(req: Request) {
         })
         instance.save()
 
-        return responseSuccess(`User create with email folloqing detail: ${name} ${email}`, {});
+        logMe(`User Created:`)
+        logMe(`\t ${instance.email}`)
+        logMe(`\t ${instance.password}`)
+
+        return responseSuccess(`Account created successfully Email: ${email}`, {});
 
 
     } catch (error) {

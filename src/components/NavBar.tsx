@@ -29,13 +29,7 @@ const NavBar = () => {
                 '
                 >
                     <li>
-                        <Image src="/github-brands-solid-full.svg" alt="avatar" width={30} height={30} />
-                    </li>
-                    <li>
-                        <a
-                            href="https://github.com/axait/"
-                            className='irish-grover-regular text-sm'
-                        >@axait</a>
+                        LogIn | profile Badge
                     </li>
                 </ul>
             </nav>

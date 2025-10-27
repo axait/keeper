@@ -4,7 +4,7 @@ import { responseFailure, responseSuccess } from "@/src/lib/response";
 import { userModel } from "@/src/models/user.model";
 import { sessionModel } from "@/src/models/session.model";
 import { mySignJwt, myVerifyJwt } from "@/src/lib/jwt";
-import { v4 as uuidv4 } from "uuid";
+import { v6 as uuidv6 } from "uuid";
 // import { NextResponse } from "next/server"
 
 
@@ -43,8 +43,8 @@ export async function POST(req: Request) {
         logMe("User has been verified")
         
         logMe("Generating sessionId")
-        const sessionId = uuidv4();
-        FIXME: save sessionId in database AsyncLocalStorage.
+        const sessionId = uuidv6();
+        // FIXME: save sessionId in database .
 
         // DebugMe
         logMe("User Logged In:")

@@ -1,5 +1,6 @@
 
 import NavBar from '@/src/components/NavBar';
+import MyFooter from '../components/MyFooter';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -44,6 +45,7 @@ const Page = () => {
                     </Link>
                 </div>
             </div>
+            <MyFooter/>
         </>
     )
 

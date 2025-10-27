@@ -52,7 +52,9 @@ const MyFooter = () => {
                 my-1 mx-0
                 '
             >
-                <Image src="/github-brands-solid-full.svg" alt="avatar" width={25} height={25} />
+                <Image src="/github-brands-solid-full.svg" 
+                className='ml-20'
+                alt="avatar" width={25} height={25} />
                 <span
                 className='text-sm font-mono ml-[2px]'
                 >

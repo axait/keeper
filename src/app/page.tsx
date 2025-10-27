@@ -13,15 +13,34 @@ const Page = () => {
             <div className="flex flex-col items-center justify-center mt-[30vh]">
                 <h1 className="text-4xl font-bold">Home Page</h1>
                 <br />
-                <div className="flex flex-row justify-center items">
+                <div className="flex flex-row justify-center items-center">
                     <Link href="https://github.com/axait/">
-                        <span className="bg-transparent border-2 border-white px-6 py-2  rounded-md">
-                            <Image src="/github-brands-solid-full.svg" alt="avatar" width={30} height={30} />
+                        <span
+                        className="
+                        flex items-center
+                        bg-transparent 
+                        border-2 border-white 
+                        rounded-md
+                        px-6 py-2 
+                        "
+                        >
+                            <Image src="/github-brands-solid-full.svg" alt="avatar" 
+                            width={30} height={30} 
+                            className='mr-2'
+                            />
                             Go to Github
                         </span>
                     </Link>
-                    <Link href="/todo">
-                        <span className="bg-purple-500 hover:bg-purple-700 text-white px-6 py-2 rounded-md ml-5">Go to Todo Page</span>
+                    <Link href="/todo" className='flex h-[50px] '>
+                        <span 
+                        className="
+                        bg-purple-500 hover:bg-purple-700 
+                        text-white 
+                        rounded-md
+                        h-[52px]
+                        px-6 py-2 
+                        ml-5
+                         ">Go to Todo Page</span>
                     </Link>
                 </div>
             </div>

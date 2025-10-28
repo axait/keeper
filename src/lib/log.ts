@@ -27,7 +27,7 @@ export function logMe(...msg: any): void {
  */
 export function logInfo(...msg: any): void {
     if (DEBUG_MODE == "true") {
-        console.log(chalk.gray("[?] "), ...msg);
+        console.log(chalk.magenta("[?] "), ...msg);
 
     }
 }

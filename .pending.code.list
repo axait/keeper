@@ -1,0 +1,17 @@
+----------------------------------------------
+🧩 Session expiration handling missing
+You set exp in the JWT, but your sessionModel should also store expiration for database cleanup.
+----------------------------------------------
+🔐 Password hashing missing during signup
+In /api/user/create, hash the password using bcrypt before saving it.
+----------------------------------------------
+...
+----------------------------------------------
+...
+----------------------------------------------
+...
+----------------------------------------------
+...
+----------------------------------------------
+...
+----------------------------------------------

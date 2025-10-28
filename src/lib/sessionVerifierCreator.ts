@@ -1,5 +1,5 @@
 import { sessionModel } from "../models/session.model";
-import { logInfo, logMe, logSuccess } from "./log";
+import { logInfo, logMe, logSuccess, logWarning } from "./log";
 import { v6 as uuidv6 } from "uuid";
 
 
@@ -20,7 +20,7 @@ export async function mySessionVerifierCreator(userId: string): Promise<string> 
     
     // checking ⁡⁣⁣⁢⁡⁢⁣⁣⁡⁢⁣⁣𝘸e𝘩𝘵𝘩𝘦𝘳 𝘶𝘴𝘦𝘳 𝘢𝘭𝘳𝘦𝘢𝘥𝘺 𝘩𝘢𝘴 𝘴𝘦𝘴𝘴𝘪𝘰𝘯⁡
     if (checkPreviousSession?.status === "loggedin") {
-        logInfo(`USER: ALREADY logged in : ${checkPreviousSession.userId}`);
+        logWarning(`USER: ALREADY logged in : ${checkPreviousSession.userId}`);
         sessionId = checkPreviousSession.sessionId;
         return sessionId;
 
@@ -40,7 +40,7 @@ export async function mySessionVerifierCreator(userId: string): Promise<string> 
     })
 
     logSuccess("New Session Created: ")
-    logMe("\t"+newSessionData)
+    logInfo("\t"+newSessionData)
 
     return sessionId;
 }

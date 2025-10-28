@@ -1,15 +1,12 @@
 import connectToDB from "@/src/lib/connectToDB";
-import { logMe } from "@/src/lib/log";
+import { logData, logError, logInfo, logMe, logProcessing, logSuccess } from "@/src/lib/log";
 import { responseFailure, responseSuccess } from "@/src/lib/response";
 import { userModel } from "@/src/models/user.model";
-import { sessionModel } from "@/src/models/session.model";
-import { mySignJwt, myVerifyJwt } from "@/src/lib/jwt";
-import { v6 as uuidv6 } from "uuid";
-// import { NextResponse } from "next/server"
+import { mySignJwt } from "@/src/lib/jwt";
+import { mySessionVerifierCreator } from "@/src/lib/sessionVerifierCreator";
 
 
 const jwtSecretKey = new TextEncoder().encode(process.env.JWT_SECRET);
-const alg: string = "HS256";
 
 if (!jwtSecretKey) {
     throw new Error("JWT_SECRET is not defined")
@@ -26,58 +23,68 @@ export async function POST(req: Request) {
         logMe(email)
         logMe(password)
 
-
+        // verifying whther user exist or not
         if (!email || !password) {
+            logError("InComplete User Credentials",);
             return responseFailure("InComplete User Credentials",)
         }
 
         const existingUser = await userModel.findOne({ email });
         if (!existingUser) {
+            logError("User does not exist");;
             return responseFailure("User does not exist");
         }
 
-        if (email !== existingUser.password) {
+        if (password !== existingUser.password) {
+            logError("InValid Credentials");
             return responseFailure("InValid Credentials")
         }
 
-        logMe("User has been verified")
-        
-        logMe("Generating sessionId")
-        const sessionId = uuidv6();
-        // FIXME: save sessionId in database .
+        logSuccess("User has been VERIFIED")
+        // ----------------------------------------------------------------------------------
+
+        logProcessing("Generating sessionId...")
+
+        // Creating user session if user already does not have any sessionId. it
+        const sessionId = await mySessionVerifierCreator(existingUser.userId);
+
+
+
 
         // DebugMe
-        logMe("User Logged In:")
-        logMe(`\t${existingUser.email}`)
-        logMe(`\t${existingUser.password}`)
+        logInfo("User Logged In:")
+        logInfo(`\t${existingUser.email}`)
+        logInfo(`\t${existingUser.password}`)
 
 
         const now = Math.floor(Date.now() / 1000);
-        
 
-        const dataToSign = {
+
+        logData("session: " + sessionId)
+
+        const token = await mySignJwt({
             userId: existingUser.userId,
             email: existingUser.email,
             sessionId: sessionId,
             iat: now,
             exp: now + 60  // 60seconds life
-        }
-
-        const token = await mySignJwt(dataToSign);
-        logMe(token)
+        });
+        logData("TOKEN: " + token)
 
         // const verificationResult = await myVerifyJwt(token);
         // logMe(JSON.stringify(verificationResult, null, 2));
 
-        return responseSuccess(`Logged In succesfully ${existingUser.email}`, { token });
+        return responseSuccess(`Logged In succesfully`, { token });
 
 
     } catch (error) {
         console.log(`ERROR: ${error}`)
-        return responseFailure(`Error occured. ${error}`)
+        logError(`ERROR: ${error}`)
+        return responseFailure(`Error occured.`)
     }
 }
 
-function uuid4() {
-    throw new Error("Function not implemented.");
-}
+
+// async function checkCreateSession(userId) {
+//     console.log(userId)
+// }

@@ -20,6 +20,13 @@ export function logMe(...msg: any): void {
     }
 }
 
+export function logData(...msg: any): void {
+    if (DEBUG_MODE == "true") {
+        console.log(chalk.cyanBright("[+] "), ...msg);
+
+    }
+}
+
 /**
  * Logs a message to the console, prefixed with a gray "[?]" string,
  * only if DEBUG_MODE is set to "true".

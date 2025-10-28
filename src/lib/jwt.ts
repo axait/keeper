@@ -15,7 +15,7 @@ export async function mySignJwt(payload: any): Promise<string> {
     })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("1m") // expires in 1 minute
+        .setExpirationTime("1h") // expires in 1 hour
         .sign(JWT_SECRET)
 
 
@@ -32,12 +32,13 @@ export async function myVerifyJwt(token: string): Promise<{ valid: boolean, payl
             issuer: "keeper-wheat.vercel.com",
             audience: "keeper-frontend",
         })
-        logMe(payload)
+        logMe("myVerifyJWT: ",payload)
 
         return { valid: true, payload };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-        logMe(error.message)
+        logMe("JWT verification Failed ")
+        logMe("Error: ",error.message)
 
         return { valid: false, payload: null };
     }

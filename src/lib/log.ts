@@ -5,8 +5,9 @@ if (!DEBUG_MODE) {
     DEBUG_MODE = 'true'
 }
 
-export function logMe(msg: string): void {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function logMe(...msg: any): void {
     if (DEBUG_MODE == "true") {
-        console.log(msg)
+        console.log(`[*] ${msg}`)
     }
 }

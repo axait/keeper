@@ -20,6 +20,12 @@ export function logMe(...msg: any): void {
     }
 }
 
+/**
+ * Logs data to the console, prefixed with a cyan "[+]" string,
+ * only if DEBUG_MODE is set to "true".
+ * Useful for debugging data such as API responses, database queries, etc.
+ * @param {...msg} The data to log.
+ */
 export function logData(...msg: any): void {
     if (DEBUG_MODE == "true") {
         console.log(chalk.cyanBright("[+] "), ...msg);
@@ -71,6 +77,19 @@ export function logProcessing(...msg: any): void {
 export function logError(...msg: any): void {
     if (DEBUG_MODE == "true") {
         console.log(chalk.redBright("[_] "), ...msg);
+
+    }
+}
+
+
+/**
+ * Logs an error message to the console, prefixed with a red "[_] ERROR: " string,
+ * only if DEBUG_MODE is set to "true".
+ * @param {...msg} The error message(s) to log.
+ */
+export function logErrorSerious(...msg: any): void {
+    if (DEBUG_MODE == "true") {
+        console.log(chalk.redBright("[_] ERROR: "), ...msg);
 
     }
 }

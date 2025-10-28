@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
-import { logErrorSerious, logMe, logSuccess } from "./log";
+import { logErrorSerious, logSuccess } from "./log";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 

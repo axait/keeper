@@ -3,18 +3,21 @@ import mongoose, { Schema, Document, models } from "mongoose";
 interface ISession extends Document {
     sessionId: string,
     userId: string,
-    status: "signedin" | "signedout",
+    exp: number,
+    status: "loggedin" | "loggedout",
     createdAt: Date,
     updatedAt: Date,
 };
 
 const sessionSchema = new Schema<ISession>(
     {
-        sessionId: { type: String, required: true,  unique: true  },
-        userId: { type: String, required: true },
+        sessionId: { type: String, required: true, unique: true },
+        userId: { type: String, required: true, unique: true },
+        // exp: { type: Number, required: true },
+        exp: { type: Number },
         status: {
             type: String,
-            enum: ["signedin", "signedout"],
+            enum: ["loggedin"],
             required: true,
         },
     },

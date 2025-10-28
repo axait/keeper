@@ -87,7 +87,7 @@ export function logWarning(...msg: any): void {
  * @param {string} text The text to decorate.
  * @returns {string} The decorated text.
  */
-function decorateText(mode: string, text: string) {
+export function decorateText(mode: string, text: string): string {
     switch (mode) {
         case "success":
             return chalk.greenBright(text);

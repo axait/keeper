@@ -15,7 +15,7 @@ export async function mySignJwt(payload: any): Promise<string> {
     })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("1h") // expires in 1 hour
+        .setExpirationTime("7d") // expires in 1 hour
         .sign(JWT_SECRET)
 
 
@@ -24,7 +24,18 @@ export async function mySignJwt(payload: any): Promise<string> {
 }
 
 
-export async function myVerifyJwt(token: string): Promise<{ valid: boolean, payload: string[] | number[] | null }> {
+interface tokenPayloadType {
+    userId: string,
+    email: string,
+    sessionId: string,
+    iat: number,
+    exp: number,
+    iss: string,
+    aud: string,
+  }
+
+
+export async function myVerifyJwt(token: string): Promise<{ valid: boolean, payload: tokenPayloadType | null }> {
 
     try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

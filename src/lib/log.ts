@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import chalk from "chalk";
+import { logFiler } from "./logFiler";
 
 
 let DEBUG_MODE = process.env.DEBUG_MODE
@@ -51,6 +52,7 @@ export function logInfo(...msg: any): void {
  * @param {...msg} The message(s) to log.
  */
 export function logSuccess(...msg: any): void {
+    logFiler(`${msg}`, "success")
     if (DEBUG_MODE == "true") {
         console.log(chalk.greenBright("[*] "), ...msg);
 
@@ -70,38 +72,42 @@ export function logProcessing(...msg: any): void {
 }
 
 /**
- * Logs an error message to the console, prefixed with a red "[_]" string,
+ * Logs an error message to the console, prefixed with a red "[!]" string,
  * only if DEBUG_MODE is set to "true".
  * @param {...msg} The error message(s) to log.
  */
 export function logError(...msg: any): void {
+    logFiler(`${msg}`, "error")
     if (DEBUG_MODE == "true") {
-        console.log(chalk.redBright("[_] "), ...msg);
+        console.log(chalk.redBright("[!] "), ...msg);
 
     }
 }
 
 
 /**
- * Logs an error message to the console, prefixed with a red "[_] ERROR: " string,
+ * Logs an error message to the console, prefixed with a red "[!!] ERROR: " string,
  * only if DEBUG_MODE is set to "true".
  * @param {...msg} The error message(s) to log.
  */
 export function logErrorSerious(...msg: any): void {
+    logFiler(`ERROR: ${msg}`, "error")
+
     if (DEBUG_MODE == "true") {
-        console.log(chalk.redBright("[_] ERROR: "), ...msg);
+        console.log(chalk.redBright("[!!] ERROR: "), ...msg);
 
     }
 }
 
 /**
- * Logs a message to the console, prefixed with a yellow "[!]" string,
+ * Logs a message to the console, prefixed with a yellow "[_]" string,
  * only if DEBUG_MODE is set to "true".
  * @param {...msg} The message(s) to log.
  */
 export function logWarning(...msg: any): void {
+    logFiler(`${msg}`, "warning")
     if (DEBUG_MODE == "true") {
-        console.log(chalk.yellowBright("[!] "), ...msg);
+        console.log(chalk.yellowBright("[_] "), ...msg);
 
     }
 }

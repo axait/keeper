@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from 'react'
-import "@/src/styles/Todo.scss";
-import "@/src/styles/InputField.scss";
-import { TodosType } from '@/src/types/TodosType';
+import "@/styles/Todo.scss";
+import "@/styles/InputField.scss";
+import { TodosType } from '@/types/TodosType';
 
 
 function Todo({ key, title, description, date, time, status }: TodosType) {

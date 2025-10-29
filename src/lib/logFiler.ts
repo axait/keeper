@@ -4,6 +4,7 @@ import { logErrorSerious } from "./log";
 
 type categoryType = "info" | "success" | "warning" | "error";
 
+// ⁡⁢⁣⁢​‌‍‌UPDATE IT TO save logs in database but not continuously. It maintains a queue which get saved after specific time.​⁡
 
 /**
  * Writes logs to a file inside the project's `/logs` folder.

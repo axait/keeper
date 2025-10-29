@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import "@/src/styles/FilterBar.scss";
+import "@/styles/FilterBar.scss";
 
 const FilterBar = () => {
     const pathname = usePathname();

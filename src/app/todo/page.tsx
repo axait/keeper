@@ -1,7 +1,7 @@
 "use client";
 
-import NavBar from "@/src/components/NavBar";
-import TodoList from "@/src/components/TodoList";
+import NavBar from "@/components/NavBar";
+import TodoList from "@/components/TodoList";
 
 
 export default function Home() {

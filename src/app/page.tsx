@@ -1,5 +1,5 @@
 
-import NavBar from '@/src/components/NavBar';
+import NavBar from '@/components/NavBar';
 import MyFooter from '../components/MyFooter';
 import Link from 'next/link';
 import Image from 'next/image';

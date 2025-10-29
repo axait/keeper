@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { logErrorSerious, logMe } from "./log";
+import { logErrorSerious } from "./log";
 
 type categoryType = "info" | "success" | "warning" | "error";
 
@@ -56,7 +56,7 @@ export function logFiler(message: string, category: categoryType = "info") {
 
         // Optional: also show in console
         // logMe(`📝 [${sign}] ${message}`);
-        
+
     } catch (err) {
         console.error("❌ Failed to write log:", err);
         logErrorSerious("❌ Failed to write log:", err);

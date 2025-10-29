@@ -20,6 +20,7 @@ export async function POST(req: Request) {
         const { email, password } = await req.json()
 
         // DebugMe
+        logInfo("User in req to Sign In:")
         logMe(email)
         logMe(password)
 

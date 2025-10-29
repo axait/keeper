@@ -8,9 +8,6 @@ export function middleware(request: NextRequest) {
   return NextResponse.redirect(new URL('/', request.url))
 }
 
-// ✅ Tell Next.js: "Run this function as middleware"
-export { middleware }
-
 export const config = {
   matcher: ['/api/:path*', '/todo/:path*'],
 }

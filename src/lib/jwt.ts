@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
-import { logErrorSerious, logSuccess } from "./log";
+// import { logErrorSerious, logSuccess } from "./log";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
@@ -43,13 +43,16 @@ export async function myVerifyJwt(token: string): Promise<{ valid: boolean, payl
             issuer: "keeper-wheat.vercel.com",
             audience: "keeper-frontend",
         })
-        logSuccess("JWT Verified: ",payload)
+        // logSuccess("JWT Verified: ",payload)
+        console.log("[*] JWT Verified: ",payload)
 
         return { valid: true, payload: payload.payload };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-        logErrorSerious("JWT verification Failed ")
-        logErrorSerious("Error: ",error.message)
+        // logErrorSerious("JWT verification Failed ")
+        console.log("[*] JWT verification Failed ")
+        // logErrorSerious("Error: ",error.message)
+        console.log("[!!] Error: ",error.message)
 
         return { valid: false, payload: null };
     }

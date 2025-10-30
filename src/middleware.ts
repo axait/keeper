@@ -5,7 +5,7 @@ import { myVerifyJwt } from './lib/jwt';
 const exceptionalRoutes = ['/api', '/todo'];
 
 export async function middleware(req: NextRequest) {
-  console.log(`🚀 Middleware triggered! ${req.nextUrl.pathname}`);
+  console.log(`[?] Middleware triggered! ${req.nextUrl.pathname}`);
 
   // checking for exceptional routes
   if (exceptionalRoutes.includes(req.nextUrl.pathname)) {

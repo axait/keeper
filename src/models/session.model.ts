@@ -13,8 +13,7 @@ const sessionSchema = new Schema<ISession>(
     {
         sessionId: { type: String, required: true, unique: true },
         userId: { type: String, required: true, unique: true },
-        // exp: { type: Number, required: true },
-        exp: { type: Number },
+        exp: { type: Number, default:7*24*60*60*1000 }, // for 7d
         status: {
             type: String,
             enum: ["loggedin"],

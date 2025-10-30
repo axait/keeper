@@ -14,6 +14,8 @@ import { v6 as uuidv6 } from "uuid";
  */
 export async function mySessionVerifierCreator(userId: string): Promise<string> {
 
+    // TODO: check whther session expired or not also.
+
     let sessionId = null;
     // check whther user old session available or not.
     const checkPreviousSession = await sessionModel.findOne({ userId: userId })

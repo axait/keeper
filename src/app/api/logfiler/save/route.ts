@@ -11,13 +11,26 @@ interface logsQueueType {
     status: "info" | "success" | "error" | "warning" | "errorserious";
 }
 
+const SECRET_CODE = process.env.SECRET_CODE;
+
+if (!SECRET_CODE) {
+    throw new Error("SECRET_CODE is not defined");
+}
+
 export async function POST(req: Request) {
     // TODO: remove the queue feature for now bcz it is not being used and for now it is difficulkt for me. add this feature later.
-    
+
     try {
         await connectToDB();
 
-        const { logsqueue: logsQueue } = await req.json();
+        const { secretCode: secretCodeFrontend, logsqueue: logsQueue } = await req.json();
+
+        logInfo(`SecretCodeFrontend: ${secretCodeFrontend}`)
+        if (!(secretCodeFrontend === SECRET_CODE)) {
+            logError("SECRET_CODE does not match");
+            return responseFailure("secretCode failure.");
+        }
+
         logInfo(`Logs Queue: ${JSON.stringify(logsQueue)}`)
 
 
@@ -47,6 +60,7 @@ export async function POST(req: Request) {
 
         await logsfilerModel.insertMany(logsToSave);
 
+        logInfo(`${logsToSave.length} Logs saved successfully`);
         return responseSuccess(`${logsToSave.length} Logs saved successfully`, {});
 
     } catch (error) {

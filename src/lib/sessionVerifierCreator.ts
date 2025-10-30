@@ -1,5 +1,5 @@
 import { sessionModel } from "../models/session.model";
-import { logInfo, logMe, logSuccess, logWarning } from "./log";
+import { logInfo, logSuccess, logWarning } from "./log";
 import { v6 as uuidv6 } from "uuid";
 
 

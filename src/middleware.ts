@@ -37,6 +37,7 @@ export async function middleware(req: NextRequest) {
 	const res = NextResponse.next();
 	res.headers.set("x-user-id", payload?.userId || "");
 	res.headers.set("x-session-id", payload?.sessionId || "");
+	res.headers.set("x-user-level", "admin");
 	// res.headers.set("x-user-level", payload?.level || "");
 
 

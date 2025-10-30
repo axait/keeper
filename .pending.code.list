@@ -5,7 +5,10 @@ You set exp in the JWT, but your sessionModel should also store expiration for d
 🔐 Password hashing missing during signup
 In /api/user/create, hash the password using bcrypt before saving it.
 ----------------------------------------------
-...
+TODO: check whther session expired or not also.
+in /lib/sessionVerifierCreator.ts
+----------------------------------------------
+every request will pick the value of SECRET_CODE from .env.local in backend.
 ----------------------------------------------
 ...
 ----------------------------------------------

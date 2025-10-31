@@ -4,9 +4,11 @@ import { myVerifyJwt } from './lib/jwt';
 
 const exceptionalRoutes = [
 	"/api/logfiler/save",
+	"/api/logfiler/get", // for dev only
 	"/api/user/signin",
 	"/api/user/signout",
 	"/api/user/create",
+	"/logfiler", // for dev only
 	"/todo",
 ];
 
@@ -16,7 +18,7 @@ export async function middleware(req: NextRequest) {
 
 	// checking for exceptional routes
 	if (exceptionalRoutes.includes(currentUrl)) {
-		console.log("[OK] passed")
+		console.log("[OK] skiped the route")
 		return NextResponse.next();
 	}
 

@@ -1,6 +1,7 @@
 // logfiler/get/route.ts
 
 import connectToDB from "@/lib/connectToDB";
+import { logError, logSuccess } from "@/lib/log";
 import { responseFailure, responseSuccess } from "@/lib/response";
 import { logsfilerModel } from "@/models/logsfiler.model";
 
@@ -17,10 +18,12 @@ export async function POST(req: Request) {
     const userLevel = await req.headers.get("x-user-level");
 
     if (!secretCodeForLogs || secretCodeForLogs !== SECRET_LOGS_CODE) {
+        logError("Invalid secret code for logs");
         return responseFailure("w**!");
     }
 
     if (!userLevel || userLevel !== "admin") {
+        logError("User is not Admin");
         return responseFailure("Hello Normal User");
     }
 
@@ -34,6 +37,7 @@ export async function POST(req: Request) {
             logs = await logsfilerModel.find({}).limit(100);
         }
 
+        logSuccess("Logs retrieved successfully");
         return responseSuccess("Logs retrieved successfully", logs);
 
     } catch (error) {

@@ -11,7 +11,7 @@ interface logsQueueType {
     status: "info" | "success" | "error" | "warning" | "errorserious";
 }
 
-const SECRET_CODE = process.env.SECRET_CODE;
+const SECRET_CODE = process.env.SECRET_LOGS_CODE;
 
 if (!SECRET_CODE) {
     throw new Error("SECRET_CODE is not defined");

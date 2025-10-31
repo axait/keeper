@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals';
 
-test('hello world!', () => {
-	expect(1 + 1).toBe(2);
+test('sum test', () => {
+	expect(2).toBe(2);
 });

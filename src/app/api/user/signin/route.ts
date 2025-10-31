@@ -1,9 +1,9 @@
-import connectToDB from "@/src/lib/connectToDB";
-import { logData, logError, logInfo, logMe, logProcessing, logSuccess } from "@/src/lib/log";
-import { responseFailure, responseSuccess } from "@/src/lib/response";
-import { userModel } from "@/src/models/user.model";
-import { mySignJwt } from "@/src/lib/jwt";
-import { mySessionVerifierCreator } from "@/src/lib/sessionVerifierCreator";
+import connectToDB from "@/lib/connectToDB";
+import { logData, logError, logInfo, logMe, logProcessing, logSuccess } from "@/lib/log";
+import { responseFailure, responseSuccess } from "@/lib/response";
+import { userModel } from "@/models/user.model";
+import { mySignJwt } from "@/lib/jwt";
+import { mySessionVerifierCreator } from "@/lib/sessionVerifierCreator";
 
 
 const jwtSecretKey = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
         logSuccess("User has been VERIFIED")
         // ----------------------------------------------------------------------------------
 
-        logProcessing("Generating sessionId...")
+        logProcessing("Generating or Sending Old sessionId...")
 
         // Creating user session if user already does not have any sessionId. it
         const sessionId = await mySessionVerifierCreator(existingUser.userId);

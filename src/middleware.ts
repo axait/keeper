@@ -4,6 +4,8 @@ import { myVerifyJwt } from './lib/jwt';
 
 const exceptionalRoutes = [
 	"/api/logfiler/save",
+	"/api/user/signin",
+	"/api/user/create",
 	"/todo" ,
 ];
 

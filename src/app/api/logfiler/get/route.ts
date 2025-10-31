@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         if (continuationId) {
             logs = await logsfilerModel.find({ _id: { $gt: continuationId } }).limit(100);
         } else {
-            logs = await logsfilerModel.find({}).limit(100);
+            logs = await logsfilerModel.find({}).sort({ _id: -1 }).limit(100);
         }
 
         logSuccess("Logs retrieved successfully");

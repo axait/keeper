@@ -34,6 +34,7 @@ const PageLogger = () => {
                 "
             >
                 {logs.map((log) => (
+                    // eslint-disable-next-line react/jsx-key
                     <LogFiler index={log._id} log={log} />
                 ))}
             </ul>

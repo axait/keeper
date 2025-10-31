@@ -18,7 +18,7 @@ export async function middleware(req: NextRequest) {
 
 	// checking for exceptional routes
 	if (exceptionalRoutes.includes(currentUrl)) {
-		console.log("[OK] skiped the route")
+		console.log(`[OK] skiped the route ${currentUrl}`)
 		return NextResponse.next();
 	}
 

@@ -1,7 +1,7 @@
-import connectToDB from "@/src/lib/connectToDB";
-import { logMe } from "@/src/lib/log";
-import { responseFailure, responseSuccess } from "@/src/lib/response";
-import { userModel } from "@/src/models/user.model";
+import connectToDB from "@/lib/connectToDB";
+import { logMe } from "@/lib/log";
+import { responseFailure, responseSuccess } from "@/lib/response";
+import { userModel } from "@/models/user.model";
 // import { NextResponse } from "next/server"
 
 

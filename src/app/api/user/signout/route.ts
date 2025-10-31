@@ -1,8 +1,8 @@
-import connectToDB from "@/src/lib/connectToDB";
-import { myVerifyJwt } from "@/src/lib/jwt";
-import { logError, logErrorSerious, logInfo } from "@/src/lib/log";
-import { responseFailure, responseSuccess } from "@/src/lib/response";
-import { sessionModel } from "@/src/models/session.model";
+import connectToDB from "@/lib/connectToDB";
+import { myVerifyJwt } from "@/lib/jwt";
+import { logError, logErrorSerious, logInfo } from "@/lib/log";
+import { responseFailure, responseSuccess } from "@/lib/response";
+import { sessionModel } from "@/models/session.model";
 
 
 /**

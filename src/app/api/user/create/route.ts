@@ -1,7 +1,7 @@
-import connectToDB from "@/src/lib/connectToDB";
-import { logMe } from "@/src/lib/log";
-import { responseFailure, responseSuccess } from "@/src/lib/response";
-import { userModel } from "@/src/models/user.model";
+import connectToDB from "@/lib/connectToDB";
+import { logMe } from "@/lib/log";
+import { responseFailure, responseSuccess } from "@/lib/response";
+import { userModel } from "@/models/user.model";
 import { v4 as uuidv4 } from "uuid";
 // import { NextResponse } from "next/server"
 
@@ -36,6 +36,7 @@ export async function POST(req: Request) {
             userId: uuidv4(),
             name: name,
             email: email,
+            level: "normal",
             password: password
         })
         instance.save()

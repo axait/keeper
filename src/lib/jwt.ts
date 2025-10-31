@@ -28,6 +28,7 @@ interface tokenPayloadType {
     userId: string,
     email: string,
     sessionId: string,
+    level: string,
     iat: number,
     exp: number,
     iss: string,

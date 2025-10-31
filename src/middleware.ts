@@ -5,15 +5,17 @@ import { myVerifyJwt } from './lib/jwt';
 const exceptionalRoutes = [
 	"/api/logfiler/save",
 	"/api/user/signin",
+	"/api/user/signout",
 	"/api/user/create",
-	"/todo" ,
+	"/todo",
 ];
 
 export async function middleware(req: NextRequest) {
-	console.log(`[?] Middleware triggered! ${req.nextUrl.pathname}`);
+	const currentUrl = req.nextUrl.pathname;
+	console.log(`[?] Middleware triggered! ${currentUrl}`);
 
 	// checking for exceptional routes
-	if (exceptionalRoutes.includes(req.nextUrl.pathname)) {
+	if (exceptionalRoutes.includes(currentUrl)) {
 		console.log("[OK] passed")
 		return NextResponse.next();
 	}
@@ -33,6 +35,13 @@ export async function middleware(req: NextRequest) {
 	if (!valid) {
 		console.log("InValid token")
 		return NextResponse.redirect(new URL('/404', req.url))
+	}
+
+	// here you adds custom checks for specific routes.
+	if (currentUrl === "/logfiler") {
+		if (payload?.level !== "admin") {
+		return NextResponse.redirect(new URL('/404', req.url))
+		}
 	}
 
 	// adding headers with data for backend

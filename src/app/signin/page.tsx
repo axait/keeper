@@ -1,85 +1,176 @@
+"use client";
+
+import React, { useState } from 'react'
+import axios from 'axios'
+import { useRouter } from 'next/navigation';
 
 
+const Signin = () => {
+    const router = useRouter();
+
+    const [isSignIn, setIsSignIn] = useState(true)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
 
-// ⁡⁢⁣⁢​‌‌‍𝗖𝗢𝗠𝗟𝗣𝗘𝗧𝗘 𝗠​‌‌‍𝗘​​⁡
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
 
-// "use client";
 
-// import React, { useState } from 'react'
-// import axios from 'axios'
-// import Image from 'next/image'
-// import Link from 'next/link'
-// import { useRouter } from 'next/router'
+        if (!isSignIn) {
+            const res = await axios.post('/api/user/create', JSON.stringify({ name, email, password }))
+            if (res.data?.success) {
+                setIsSignIn(true)
+                setErrorMessage("Successfully SignUp. Now, LogIn Please")
+            }
+        } else {
+            const res = await axios.post('/api/user/signin', JSON.stringify({ email, password }))
+            console.log(res.data)
+            if (res.data?.success) {
+                setTimeout(() => {
+                    router.push('/todo');
+                }, 1000)
+            }
+        }
+    }
 
-// const Signin = () => {
-//     const [email, setEmail] = useState('')
-//     const [password, setPassword] = useState('')
-//     const router = useRouter()
+    return (
+        <>
+            <div className="signin-container flex flex-col justify-center items-center h-screen ">
+                <form onSubmit={handleSubmit}
+                    className='
+                    flex flex-col justify-evenly items-center
+                    border-4 border-[#6239c9]
+                    rounded-md
+                    min-h-[450px] w-[400px]
+                    font-mono
+                    p-4
+                    '
+                >
+                    <h1
+                        style={{
+                            borderBottom: '4px solid #6239c9'
+                        }}
+                    >
+                        {
+                            isSignIn ? 'Lets start!' : 'Join Us!'
+                        }
+                    </h1>
+                    {/* --------------nameField----------------- */}
+                    {!isSignIn &&
+                        <div className="
+                        flex flex-col
+                        w-[98%]
+                        ">
+                            <label htmlFor="name">Name:</label>
+                            <input type="text" id="name" name="name" placeholder='name' onChange={(e) => setName(e.target.value)}
+                                className='
+                                font-serif
+                                py-2 mx-2
+                                h-[40px]
+                                outline-none
+                                focus:border-b-3 
+                                focus:border-[#6239c9]
+                                hover:border-b-3
+                                hover:border-[#6239c9]                        
+                                '
+                                style={{
+                                    borderBottom: `${name.trim() === '' ? '' : '3px solid #6239c9'}`
+                                }}
+                            />
+                        </div>
+                    }
+                    {/* --------------emailField----------------- */}
+                    <div className="
+                        flex flex-col
+                        w-[98%]
+                        ">
+                        <label htmlFor="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder='email' onChange={(e) => setEmail(e.target.value)}
+                            className='
+                            font-serif
+                            py-2 mx-2
+                            h-[40px]
+                            outline-none
+                            focus:border-b-3 
+                            focus:border-[#6239c9]
+                            hover:border-b-3
+                            hover:border-[#6239c9]                        
+                            '
+                            style={{
+                                borderBottom: `${email.trim() === '' ? '' : '3px solid #6239c9'}`
+                            }}
+                        />
+                    </div>
+                    {/* --------------passwordField----------------- */}
+                    <div className="
+                        flex flex-col
+                        w-[98%]
+                        ">
+                        <label htmlFor="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder='password' onChange={(e) => setPassword(e.target.value)}
+                            className='
+                            font-serif
+                            py-2 mx-2
+                            h-[40px]
+                            outline-none
+                            focus:border-b-3 
+                            focus:border-[#6239c9]
+                            hover:border-b-3
+                            hover:border-[#6239c9]                        
+                            '
+                            style={{
+                                borderBottom: `${password.trim() === '' ? '' : '3px solid #6239c9'}`
+                            }}
+                        />
+                    </div>
+                    {/* --------------switcher_Field----------------- */}
+                    <div className="
+                        text-left text-[0.6rem]
+                        w-[100%]
+                        pl-1
+                    ">
+                        Don&apos;t have an account?
+                        <span
+                            className='ml-2 text-[#c5b1f8] hover:text-[#af94fa] text-[0.65rem]'
+                            style={{
+                                cursor: 'pointer'
+                            }}
+                            onClick={() => { setIsSignIn(!isSignIn) }}
+                        >
+                            {isSignIn ? 'SignUp' : 'Login'}
+                        </span>
+                    </div>
+                    {/* ---------ERROR MESSAGE----------- */}
+                    <div className="
+                        text-left text-[0.6rem]
+                        w-[100%]
+                        pl-1
+                        "
+                    >
+                        {errorMessage}
+                    </div>
+                    {/* --------------switcher_Field----------------- */}
+                    <button type="submit"
+                        className='
+                        bg-[#492998]
+                        h-[40px] w-[98%]
+                        rounded
+                        text-white
+                        hover:bg-[#24144c]
+                        '
+                    >
+                        {
+                            isSignIn ? 'Login' : 'Signin'
+                        }
+                    </button>
+                </form>
+            </div>
+        </>
+    )
+}
 
-//     const handleSubmit = async (e) => {
-//         e.preventDefault()
-//         try {
-//             const res = await axios.post('/api/user/signin', JSON.stringify({ email, password }))
-//             const data = res.data
-//             const sessionId = data.sessionId
-//             const res2 = await axios.post('/api/user/verifyemail', JSON.stringify({ sessionId }))
-//             const data2 = res2.data
-//             if (data2.verified) {
-//                 router.push('/')
-//             } else {
-//                 console.log("User is not verified")
-//             }
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-
-//     const handleCreateAccountSubmit = async (e) => {
-//         e.preventDefault()
-//         try {
-//             const name = e.currentTarget.name.value
-//             const email = e.currentTarget.email.value
-//             const password = e.currentTarget.password.value
-//             const res = await axios.post('/api/user/create', JSON.stringify({ name, email, password }))
-//             const data = res.data
-//             const sessionId = data.sessionId
-//             const res2 = await axios.post('/api/user/verifyemail', JSON.stringify({ sessionId }))
-//             const data2 = res2.data
-//             if (data2.verified) {
-//                 router.push('/')
-//             } else {
-//                 console.log("User is not verified")
-//             }
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-
-//     return (
-//         <div className="signin-container">
-//             <form onSubmit={handleSubmit}>
-//                 <h1>Sign In</h1>
-//                 <label>Email</label>
-//                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-//                 <label>Password</label>
-//                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-//                 <button type="submit">Sign In</button>
-//             </form>
-//             <hr />
-//             <form onSubmit={handleCreateAccountSubmit}>
-//                 <h1>Create Account</h1>
-//                 <label>Name</label>
-//                 <input type="text" name="name" />
-//                 <label>Email</label>
-//                 <input type="email" name="email" />
-//                 <label>Password</label>
-//                 <input type="password" name="password" />
-//                 <button type="submit">Create Account</button>
-//             </form>
-//         </div>
-//     )
-// }
-
-// export default Signin
+export default Signin
 

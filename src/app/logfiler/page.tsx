@@ -8,17 +8,12 @@ const PageLogger = () => {
     const [logs, setLogs] = useState<ILogProps[]>([]);
 
     const getLogs = async () => {
-        const res = await axios.post('/api/logfiler/get', JSON.stringify({  secretCodeForLogs:"helloSecret" }), {
-            headers: {
-                "x-user-level": "admin",
-            },
-        })
-        console.log(res.data)
-        setLogs(res.data.data)
+        const res = await axios.post('/api/logfiler/get', JSON.stringify({ secretCodeForLogs: "helloSecret" }))
+        setLogs(res.data?.data)
     }
 
     useEffect(() => {
-            getLogs();
+        getLogs();
 
     }, []);
 
@@ -33,7 +28,7 @@ const PageLogger = () => {
                 px-[2vw]
                 "
             >
-                {logs.map((log) => (
+                {!!logs && logs.map((log) => (
                     // eslint-disable-next-line react/jsx-key
                     <LogFiler index={log._id} log={log} />
                 ))}

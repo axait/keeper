@@ -66,6 +66,7 @@ export async function POST(req: Request) {
         const token = await mySignJwt({
             userId: existingUser.userId,
             email: existingUser.email,
+            level: existingUser.level,
             sessionId: sessionId,
             iat: now,
             exp: now + 7*24*60*60*1000  // 1week life
@@ -77,7 +78,7 @@ export async function POST(req: Request) {
 
         const res = responseSuccess(`Logged In succesfully`, { token });
         res.cookies.set("token", token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60,

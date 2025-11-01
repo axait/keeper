@@ -5,6 +5,8 @@ import "./globals.css";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS manually
+import NavBar from "@/components/NavBar";
+import MyFooter from "@/components/MyFooter";
 config.autoAddCss = false; // Prevent Font Awesome from adding CSS automatically
 
 
@@ -33,7 +35,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
+        <NavBar/>
         {children}
+        <MyFooter/>
       </body>
     </html>
   );

@@ -4,11 +4,8 @@ import { myVerifyJwt } from './lib/jwt';
 
 const exceptionalRoutes = [
 	"/api/logfiler/save",
-	// "/api/logfiler/get", // for dev only
 	"/api/user/signin",
 	"/api/user/create",
-	"/logfiler", // for dev only
-	"/todo",
 ];
 
 export async function middleware(req: NextRequest) {
@@ -21,13 +18,24 @@ export async function middleware(req: NextRequest) {
 		return NextResponse.next();
 	}
 
+
 	// trying to extract token
 	const token = req.cookies?.get('token')?.value;
+
+	// checking whther token exist or not and then allowing to signin
+	if (currentUrl === "/signin") {
+		if (!token) {
+			console.log("no token")
+			return NextResponse.next();
+		} else {
+			return NextResponse.redirect(new URL('/todo', req.url))
+		}
+	}
 
 	// checking whther token exist or not.
 	if (!token) {
 		console.log("no token")
-		return NextResponse.redirect(new URL('/404', req.url))
+		return NextResponse.rewrite(new URL('/404', req.url))
 	}
 
 	// checking whther token exist or not.
@@ -35,13 +43,14 @@ export async function middleware(req: NextRequest) {
 
 	if (!valid) {
 		console.log("InValid token")
-		return NextResponse.redirect(new URL('/404', req.url))
+		return NextResponse.rewrite(new URL('/404', req.url))
 	}
 
 	// here you adds custom checks for specific routes.
-	if (currentUrl === "/logfiler") {
+	if (currentUrl === "/logfiler" || currentUrl === "/api/logfiler/get") {
+		console.log("level: ",payload?.level)
 		if (payload?.level !== "admin") {
-		return NextResponse.redirect(new URL('/404', req.url))
+			return NextResponse.redirect(new URL('/404', req.url));
 		}
 	}
 
@@ -52,11 +61,18 @@ export async function middleware(req: NextRequest) {
 	res.headers.set("x-user-level", payload?.level || "normal");
 	// res.headers.set("x-user-level", payload?.level || "");
 
-
+	console.log("[*] Access granted to ", currentUrl)
 	return res;
 }
 
 export const config = {
-	matcher: ['/api/:path*', '/todo/:path*'],
+	matcher: [
+		'/api/:path*',
+		'/todo/:path*',
+		"/signin",
+		"/logfiler",
+		"/api/logfiler/get",
+		"/api/logfiler/save"
+	],
 }
 

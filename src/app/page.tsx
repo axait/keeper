@@ -1,6 +1,4 @@
 
-import NavBar from '@/components/NavBar';
-import MyFooter from '../components/MyFooter';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -10,7 +8,6 @@ const Page = () => {
 
     return (
         <>
-            <NavBar />
             <div className="flex flex-col items-center justify-center mt-[30vh]">
                 <h1 className="text-4xl font-bold">Home Page</h1>
                 <br />
@@ -45,7 +42,6 @@ const Page = () => {
                     </Link>
                 </div>
             </div>
-            <MyFooter/>
         </>
     )
 

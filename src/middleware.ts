@@ -4,7 +4,7 @@ import { myVerifyJwt } from './lib/jwt';
 
 const exceptionalRoutes = [
 	"/api/logfiler/save",
-	"/api/logfiler/get", // for dev only
+	// "/api/logfiler/get", // for dev only
 	"/api/user/signin",
 	"/api/user/create",
 	"/logfiler", // for dev only
@@ -49,7 +49,7 @@ export async function middleware(req: NextRequest) {
 	const res = NextResponse.next();
 	res.headers.set("x-user-id", payload?.userId || "");
 	res.headers.set("x-session-id", payload?.sessionId || "");
-	res.headers.set("x-user-level", "admin");
+	res.headers.set("x-user-level", payload?.level || "normal");
 	// res.headers.set("x-user-level", payload?.level || "");
 
 

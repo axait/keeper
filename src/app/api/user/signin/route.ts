@@ -68,14 +68,23 @@ export async function POST(req: Request) {
             email: existingUser.email,
             sessionId: sessionId,
             iat: now,
-            exp: now + 60  // 60seconds life
+            exp: now + 7*24*60*60*1000  // 1week life
         });
         logData("TOKEN: " + token)
 
         // const verificationResult = await myVerifyJwt(token);
         // logMe(JSON.stringify(verificationResult, null, 2));
 
-        return responseSuccess(`Logged In succesfully`, { token });
+        const res = responseSuccess(`Logged In succesfully`, { token });
+        res.cookies.set("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60,
+            path: "/",
+        })
+
+        return res;
 
 
     } catch (error) {

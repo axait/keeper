@@ -6,7 +6,6 @@ const exceptionalRoutes = [
 	"/api/logfiler/save",
 	"/api/logfiler/get", // for dev only
 	"/api/user/signin",
-	"/api/user/signout",
 	"/api/user/create",
 	"/logfiler", // for dev only
 	"/todo",

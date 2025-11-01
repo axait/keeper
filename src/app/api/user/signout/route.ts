@@ -47,30 +47,17 @@ export async function POST(req: Request) {
     try {
         await connectToDB();
 
-        const { token } = await req.json()
+        const userId = await req.headers.get("x-user-id");
+        const sessionId = await req.headers.get("x-session-id");
 
         // Check if token exists
-        if (!token) {
-            logError("No Token is given",);
-        }
-
-        const { valid, payload } = await myVerifyJwt(token)
-
-
-        // Verifiny JWT
-        if (!valid) {
-            logError("Invalid Token")
-            return responseFailure("InValid token.",)
-        }
-
-        // Ensuring sessionId is present in token payload
-        if (!payload?.sessionId) {
-            logError("No SessionId is given",)
-            return responseFailure("No SessionId is given",)
+        if (!userId || !sessionId) {
+            logError("No data is given is given",);
+            return responseFailure("No data is given",)
         }
 
         // Deleting session from DB
-        const existingSession = await sessionModel.findOneAndDelete({ sessionId: payload.sessionId });
+        const existingSession = await sessionModel.findOneAndDelete({ sessionId: sessionId });
         if (!existingSession) {
             logError("Session does not exist.");
             return responseFailure("Session does not exist.");

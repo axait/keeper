@@ -9,7 +9,7 @@ export async function DELETE(req: Request) {
     try {
         await connectToDB();
         
-        const { userId  } = await req.json()
+        const userId = await req.headers.get("x-user-id");
         
         
         if (!userId) {

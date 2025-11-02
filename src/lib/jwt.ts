@@ -1,9 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { debugMode } from "@/debugMode";
 import { SignJWT, jwtVerify } from "jose";
-// import { logErrorSerious, logSuccess } from "./log";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const logProxier = (...msg:any) => {
+  const debugVar = debugMode;
+  if (debugVar) {
+	console.log(...msg)
+  }
+}
+
 export async function mySignJwt(payload: any): Promise<string> {
     const now = Math.floor(Date.now() / 1000)
 
@@ -15,7 +22,7 @@ export async function mySignJwt(payload: any): Promise<string> {
     })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("7d") // expires in 1 hour
+        .setExpirationTime("5s") // expires in 7 days
         .sign(JWT_SECRET)
 
 
@@ -33,29 +40,31 @@ interface tokenPayloadType {
     exp: number,
     iss: string,
     aud: string,
-  }
+}
 
 
 export async function myVerifyJwt(token: string): Promise<{ valid: boolean, payload: tokenPayloadType | null }> {
 
     try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const payload: any = await jwtVerify(token, JWT_SECRET, {
             issuer: "keeper-wheat.vercel.com",
             audience: "keeper-frontend",
         })
         // logSuccess("JWT Verified: ",payload)
-        console.log("[*] JWT Verified: ",payload)
+        logProxier(`[*] JWT Verified: `, payload.userId)
 
         return { valid: true, payload: payload.payload };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     } catch (error: any) {
-        // logErrorSerious("JWT verification Failed ")
-        console.log("[*] JWT verification Failed ")
-        // logErrorSerious("Error: ",error.message)
-        console.log("[!!] Error: ",error.message)
+        if (error.message.includes('"exp" claim timestamp check failed')) {
+            logProxier(`[!!] Error:  JWT expired`)
+        } else {
+            logProxier(`[!]  JWT verification Failed `)
+            logProxier(`[!!] Error: `, error.message)
+        }
 
         return { valid: false, payload: null };
     }
 }
+
 

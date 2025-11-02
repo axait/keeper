@@ -6,13 +6,11 @@ import Image from 'next/image';
 import "@/styles/navbar.scss";
 import axios from 'axios';
 import { useRouter } from "next/navigation";
-import { usePathname } from 'next/navigation';
 
 
 
 const NavBar = () => {
     const router = useRouter();
-    const pathname = usePathname();
 
     const [isLogined, setIsLogined] = useState<boolean>(false)
     const handleLogOut = async () => {
@@ -30,16 +28,17 @@ const NavBar = () => {
     }
 
     useEffect(() => {
-        setInterval(() => {
-            const token = document.cookie?.split(';').find(c => c.trim().startsWith('token='));
-            // console.log("recurenncy token: ", token)
-            if (token) {
-                setIsLogined(true);
-            }else{
-                setIsLogined(false);
+        const exceptionalRoutes=['/signin','/','/404']
+        const token = document.cookie?.split(';').find(c => c.trim().startsWith('token='));
+        if (token) {
+            setIsLogined(true);
+        } else {
+            setIsLogined(false);
+            if (!exceptionalRoutes.includes(window.location.pathname)) {
+                router.push('/signin');
             }
-        }, 2000)
-    }, [])
+        }
+    }, [router])
 
     useEffect(() => {
         const token = document.cookie?.split(';').find(c => c.trim().startsWith('token='));

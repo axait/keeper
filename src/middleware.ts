@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { myVerifyJwt } from './lib/jwt';
+import { debugMode } from './debugMode';
 
 
 const exceptionalRoutes = [
@@ -8,13 +9,22 @@ const exceptionalRoutes = [
 	"/api/user/create",
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const logProxier = (...msg:any) => {
+  const debugVar = debugMode;
+  if (debugVar) {
+	console.log(...msg)
+  }
+}
+
+
 export async function middleware(req: NextRequest) {
 	const currentUrl = req.nextUrl.pathname;
-	console.log(`[?] Middleware triggered! ${currentUrl}`);
+	logProxier(`[?] Middleware triggered! ${currentUrl}`);
 
 	// checking for exceptional routes
 	if (exceptionalRoutes.includes(currentUrl)) {
-		console.log(`[OK] skiped the route ${currentUrl}`)
+		logProxier(`[OK] skiped the route ${currentUrl}`)
 		return NextResponse.next();
 	}
 
@@ -25,7 +35,7 @@ export async function middleware(req: NextRequest) {
 	// checking whther token exist or not and then allowing to signin
 	if (currentUrl === "/signin") {
 		if (!token) {
-			console.log("no token")
+			logProxier("[!] No token (by Middleware)")
 			return NextResponse.next();
 		} else {
 			return NextResponse.redirect(new URL('/todo', req.url))
@@ -34,7 +44,7 @@ export async function middleware(req: NextRequest) {
 
 	// checking whther token exist or not.
 	if (!token) {
-		console.log("no token")
+		logProxier("[!] No token (by Middleware)")
 		return NextResponse.rewrite(new URL('/404', req.url))
 	}
 
@@ -42,13 +52,15 @@ export async function middleware(req: NextRequest) {
 	const { valid, payload } = await myVerifyJwt(token)
 
 	if (!valid) {
-		console.log("InValid token")
-		return NextResponse.rewrite(new URL('/404', req.url))
+		logProxier("[!] InValid token (by Middleware)")
+		const res = NextResponse.redirect(new URL('/signin', req.url));
+		res.cookies.delete('token');
+		return res;
 	}
 
 	// here you adds custom checks for specific routes.
 	if (currentUrl === "/logfiler" || currentUrl === "/api/logfiler/get") {
-		console.log("level: ",payload?.level)
+		logProxier("[?] Level: ",payload?.level)
 		if (payload?.level !== "admin") {
 			return NextResponse.redirect(new URL('/404', req.url));
 		}
@@ -61,7 +73,7 @@ export async function middleware(req: NextRequest) {
 	res.headers.set("x-user-level", payload?.level || "normal");
 	// res.headers.set("x-user-level", payload?.level || "");
 
-	console.log("[*] Access granted to ", currentUrl)
+	logProxier("[*] Access granted to ", currentUrl)
 	return res;
 }
 

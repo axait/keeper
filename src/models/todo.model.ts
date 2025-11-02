@@ -2,11 +2,10 @@ import mongoose, { Schema, Document, models } from "mongoose";
 
 
 export interface ITodo extends Document {
-    todoId: string;
     parentCategoryId: string;
     title: string;
     description?: string;
-    status: "InComplete" | "Completed";
+    isComplete: boolean;
     createdBy: string;
     createdAt: Date;
     updatedAt: Date;
@@ -14,13 +13,12 @@ export interface ITodo extends Document {
 
 const TodoSchema = new Schema<ITodo>(
     {
-        todoId: { type: String, required: true }, // can be number or string
+        parentCategoryId: { type: String, required: true, unique: false },
         title: { type: String, required: true },
         description: { type: String },
-        status: {
-            type: String,
-            enum: ["InComplete", "Completed"],
-            default: "InComplete",
+        isComplete: {
+            type: Boolean,
+            default: false,
         },
         createdBy: { type: String, required: true },
     },

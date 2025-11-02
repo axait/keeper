@@ -12,11 +12,11 @@ export async function POST(req: Request) {
     try {
         logInfo(`Fetching all categories ...`);
 
-        const allCategories = await categoryModel.find({ createdBy: userId });
+        const allCategory = await categoryModel.find({ createdBy: userId });
 
-        logSuccess(`Toall  ${allCategories} Categories`);
+        logSuccess(`Toall  ${allCategory} Categories`);
 
-        return responseSuccess("Category Updated Successfully", allCategories);
+        return responseSuccess("Category Updated Successfully", allCategory);
     } catch (error) {
         logErrorSerious(error);
         return responseFailure("Internal Server Error");

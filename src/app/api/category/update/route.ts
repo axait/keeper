@@ -30,7 +30,9 @@ export async function POST(req: Request) {
 
         logSuccess(`Category Updated Successfully: ${existingCategory._id}`);
 
-        return responseSuccess("Category Updated Successfully", existingCategory);
+        const updatedCategory = await categoryModel.findById(existingCategory._id);
+        return responseSuccess("Category Updated Successfully", updatedCategory);
+        
     } catch (error) {
         logErrorSerious(error);
         return responseFailure("Internal Server Error");

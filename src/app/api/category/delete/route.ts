@@ -1,5 +1,5 @@
 import connectToDB from "@/lib/connectToDB";
-import { logError, logErrorSerious, logMe, logSuccess } from "@/lib/log";
+import { logError, logErrorSerious, logSuccess } from "@/lib/log";
 import { responseFailure, responseSuccess } from "@/lib/response";
 import { categoryModel } from "@/models/category.model";
 
@@ -20,7 +20,7 @@ export async function DELETE(req: Request) {
             return responseFailure("InComplete Data is given",)
         }
 
-        const existingCategory = await categoryModel.findById(categoryId, "title sessionId createdBy");
+        const existingCategory = await categoryModel.findById(categoryId, "title createdBy");
         if (!existingCategory) {
             return responseFailure("Category does not exist");
         }

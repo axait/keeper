@@ -5,6 +5,7 @@ import FilterBar from './FilterBar';
 import Todo from './Todo';
 import { TodosType } from '@/types/TodosType';
 import "@/styles/todo_list.scss";
+import axios from 'axios';
 
 
 const TodoList = () => {
@@ -44,8 +45,8 @@ const TodoList = () => {
     const getTodos = async () => {
       try {
         console.log("🔍 Fetching todos...");
-        const res = await fetch("/api/todos/get");
-        const data = await res.json();
+        const res = await axios.post("/api/todo/getAll");
+        const data = await res.data.data;
         setTodos(data);
         console.log("✅ Todos fetched:", data);
       } catch (error) {

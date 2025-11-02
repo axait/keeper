@@ -22,7 +22,7 @@ export async function mySignJwt(payload: any): Promise<string> {
     })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("5s") // expires in 7 days
+        .setExpirationTime("7d") // expires in 7 days
         .sign(JWT_SECRET)
 
 

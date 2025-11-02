@@ -1,34 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import chalk from "chalk";
 import { logFiler } from "./logFiler";
+import { debugMode } from "@/debugMode";
 
 
-let DEBUG_MODE = process.env.DEBUG_MODE
-
-// only for developing
-if (!DEBUG_MODE) {
-    DEBUG_MODE = 'true'
-}
+const debugVar: boolean = debugMode || false;
 
 /**
  * Logs a message to the console, prefixed with a gray "[.] " string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * @param {...msg} The message(s) to log.
  */
 export function logMe(...msg: any): void {
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.gray("[.] "), ...msg);
     }
 }
 
 /**
  * Logs data to the console, prefixed with a cyan "[+]" string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * Useful for debugging data such as API responses, database queries, etc.
  * @param {...msg} The data to log.
  */
 export function logData(...msg: any): void {
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.cyanBright("[+] "), ...msg);
 
     }
@@ -36,11 +32,11 @@ export function logData(...msg: any): void {
 
 /**
  * Logs a message to the console, prefixed with a gray "[?]" string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * @param {...msg} The message(s) to log.
  */
 export function logInfo(...msg: any): void {
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.magenta("[?] "), ...msg);
 
     }
@@ -48,12 +44,12 @@ export function logInfo(...msg: any): void {
 
 /**
  * Logs a message to the console, prefixed with a green "[*]" string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * @param {...msg} The message(s) to log.
  */
 export function logSuccess(...msg: any): void {
     logFiler(`${msg}`, "success")
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.greenBright("[*] "), ...msg);
 
     }
@@ -61,11 +57,11 @@ export function logSuccess(...msg: any): void {
 
 /**
  * Logs a message to the console, prefixed with a blue "[~]" string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * @param {...msg} The message(s) to log.
  */
 export function logProcessing(...msg: any): void {
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.blueBright("[~] "), ...msg);
 
     }
@@ -73,12 +69,12 @@ export function logProcessing(...msg: any): void {
 
 /**
  * Logs an error message to the console, prefixed with a red "[!]" string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * @param {...msg} The error message(s) to log.
  */
 export function logError(...msg: any): void {
     logFiler(`${msg}`, "error")
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.redBright("[!] "), ...msg);
 
     }
@@ -87,13 +83,13 @@ export function logError(...msg: any): void {
 
 /**
  * Logs an error message to the console, prefixed with a red "[!!] ERROR: " string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * @param {...msg} The error message(s) to log.
  */
 export function logErrorSerious(...msg: any): void {
     logFiler(`ERROR: ${msg}`, "error")
 
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.redBright("[!!] ERROR: "), ...msg);
 
     }
@@ -101,12 +97,12 @@ export function logErrorSerious(...msg: any): void {
 
 /**
  * Logs a message to the console, prefixed with a yellow "[_]" string,
- * only if DEBUG_MODE is set to "true".
+ * only if debugVar is set to "true".
  * @param {...msg} The message(s) to log.
  */
 export function logWarning(...msg: any): void {
     logFiler(`${msg}`, "warning")
-    if (DEBUG_MODE == "true") {
+    if (debugVar) {
         console.log(chalk.yellowBright("[_] "), ...msg);
 
     }

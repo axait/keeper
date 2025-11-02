@@ -20,9 +20,7 @@ export async function POST(req: Request) {
         const { email, password } = await req.json()
 
         // DebugMe
-        logInfo("User in req to Sign In:")
-        logMe(email)
-        logMe(password)
+        logInfo(`User in req to Sign In Email: ${email} Password: ${password}`)
 
         // verifying whther user exist or not
         if (!email || !password) {
@@ -53,9 +51,7 @@ export async function POST(req: Request) {
 
 
         // DebugMe
-        logInfo("User Logged In:")
-        logInfo(`\t${existingUser.email}`)
-        logInfo(`\t${existingUser.password}`)
+        logInfo(`User Logged In: Email:${existingUser.email} Password: ${existingUser.password}`)
 
 
         const now = Math.floor(Date.now() / 1000);

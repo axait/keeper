@@ -1,5 +1,5 @@
 import connectToDB from "@/lib/connectToDB";
-import { logError, logMe, logSuccess } from "@/lib/log";
+import { logError, logSuccess } from "@/lib/log";
 import { responseFailure, responseSuccess } from "@/lib/response";
 import { userModel } from "@/models/user.model";
 // import { NextResponse } from "next/server"

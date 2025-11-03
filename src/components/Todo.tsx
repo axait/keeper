@@ -3,19 +3,27 @@
 import React, { useState } from 'react'
 import "@/styles/Todo.scss";
 import "@/styles/InputField.scss";
-import { TodosType } from '@/types/TodosType';
 
 
-function Todo({ key, title, description, date, time, status }: TodosType) {
-    
+type TodoTypeHere = {
+    _id: string,
+    title: string,
+    description: string,
+    createdAt: string,
+    isComplete: boolean
+}
+
+
+function Todo({ _id, title, description, createdAt, isComplete }: TodoTypeHere) {
+
     const [isExpanded, setIsExpanded] = useState(false);
-    
-    console.log(key)
+
+    // console.log(key)
     return (
         <>
             {/* COMPLETE TODO FOR DETAIL KEEPER */}
             <li
-                key={key}
+                key={_id}
                 className='
                 bg-[#1a1a1a]
                 min-h-[50px]
@@ -51,9 +59,9 @@ function Todo({ key, title, description, date, time, status }: TodosType) {
                             className={`
                         font-sans
                         text-sm md:text-base
-                        ${status === "InComplete" ? "text-[#f61f1f]" : "text-[#18b152]"}
+                        ${isComplete === false ? "text-[#f61f1f]" : "text-[#18b152]"}
                         `}
-                        >{status}</span>
+                        >{isComplete}</span>
 
                         {/* -------DATE&TIME_START----- */}
                         <div>
@@ -63,15 +71,7 @@ function Todo({ key, title, description, date, time, status }: TodosType) {
                             text-[15px]
                             opacity-50
                             "
-                            >{time}</span>
-                            <span
-                                className="
-                            font-mono
-                            text-[15px]
-                            opacity-50
-                            ml-2
-                            "
-                            >{date}</span>
+                            >{`${createdAt}`}</span>
                         </div>
                         {/* -------DATE&TIME_END----- */}
                     </div>

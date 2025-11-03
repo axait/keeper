@@ -16,6 +16,7 @@ type Todo = {
 type TodoState = {
     todos: Todo[];
     addTodo: (newTodos: Todo[]) => void;
+    setTodos: (newTodos: Todo[]) => void;
     toggleTodo: (id: string) => void;
     removeTodo: (id: string) => void;
 };
@@ -28,6 +29,10 @@ export const useTodoStore = create<TodoState>()(
             addTodo: (newTodos: Todo[]) =>
                 set((state) => ({
                     todos: [...state.todos, ...newTodos],
+                })),
+            setTodos: (newTodos: Todo[]) =>
+                set(() => ({
+                    todos: [...newTodos],
                 })),
 
             toggleTodo: (id: string) =>

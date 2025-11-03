@@ -27,11 +27,12 @@ const Signin = () => {
             }
         } else {
             const res = await axios.post('/api/user/signin', JSON.stringify({ email, password }))
-            console.log(res.data)
+            // console.log(res.data)
             if (res.data?.success) {
+                setErrorMessage("Successfully SignIn. Redirecting...")
                 setTimeout(() => {
                     router.push('/todo');
-                }, 1000)
+                }, 1500)
             }
         }
     }

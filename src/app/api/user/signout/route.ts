@@ -68,7 +68,9 @@ export async function POST(req: Request) {
         logInfo(`\tSessionId: ${existingSession.sessionId}`)
         logInfo(`\tUserId: ${existingSession.userId}`)
 
-        return responseSuccess(`Session deleted succesfully ${existingSession.sessionId} : ${existingSession.userId}`, {});
+        const res = responseSuccess(`Session deleted succesfully ${existingSession.sessionId} : ${existingSession.userId}`, {});
+        res.cookies.set("token", "", { expires: new Date(0) }); // delete cookie
+        return res;
 
 
     } catch (error) {

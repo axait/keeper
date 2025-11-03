@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+// import { persist } from 'zustand/middleware';
 
 type Todo = {
   _id: string;
@@ -21,7 +21,7 @@ type TodoState = {
 };
 
 export const useTodoStore = create<TodoState>()(
-  persist(
+  // persist(
     (set) => ({
       todos: [],
 
@@ -54,6 +54,6 @@ export const useTodoStore = create<TodoState>()(
           todos: state.todos.filter((todo) => todo._id !== id),
         })),
     }),
-    { name: 'todo-storage' } // key in localStorage
-  )
+    // { name: 'todo-storage' } // key in localStorage
+  // )
 );

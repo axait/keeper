@@ -5,12 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import "@/styles/navbar.scss";
 import axios from 'axios';
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 
 
 const NavBar = () => {
     const router = useRouter();
+    const pathNanme = usePathname();
 
     const [isLogined, setIsLogined] = useState<boolean>(false)
     const handleLogOut = async () => {
@@ -20,9 +21,8 @@ const NavBar = () => {
             const res = await axios.post('/api/user/signout')
             // console.log(res.data)
             if (res.data?.success) {
-                document.cookie = `token=; isCompleteexpires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Strict; Secure;`
-                localStorage.removeItem('todo-storage')
                 setIsLogined(false)
+                localStorage.removeItem('todo-storage')
                 router.push('/signin');
             }
         }
@@ -39,7 +39,7 @@ const NavBar = () => {
                 router.push('/signin');
             }
         }
-    }, [router])
+    }, [pathNanme, router])
 
     useEffect(() => {
         const token = document.cookie?.split(';').find(c => c.trim().startsWith('token='));
@@ -89,6 +89,7 @@ const NavBar = () => {
                                             irish-grover-regular text-sm
                                             flex flex-row items-center
                                             my-1 mx-0
+                                            hover:text-gray-300
                                             '
                                     >
                                         <Image src="/github-brands-solid-full.svg"
@@ -106,6 +107,7 @@ const NavBar = () => {
                                             flex flex-row items-center
                                             my-1 ml-2
                                             cursor-pointer
+                                            hover:text-gray-300
                                             '
                                         onClick={handleLogOut}
                                     >

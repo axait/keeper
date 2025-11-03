@@ -51,7 +51,7 @@ export async function myVerifyJwt(token: string): Promise<{ valid: boolean, payl
             audience: "keeper-frontend",
         })
         // logSuccess("JWT Verified: ",payload)
-        logProxier(`[*] JWT Verified: `, payload.userId)
+        logProxier(`[*] JWT Verified: `, payload.payload.userId)
 
         return { valid: true, payload: payload.payload };
 

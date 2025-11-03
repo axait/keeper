@@ -20,7 +20,8 @@ const NavBar = () => {
             const res = await axios.post('/api/user/signout')
             // console.log(res.data)
             if (res.data?.success) {
-                document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Strict; Secure;`
+                document.cookie = `token=; isCompleteexpires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Strict; Secure;`
+                localStorage.removeItem('todo-storage')
                 setIsLogined(false)
                 router.push('/signin');
             }

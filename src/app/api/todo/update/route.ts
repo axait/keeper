@@ -25,7 +25,6 @@ export async function POST(req: Request) {
         }
 
         logInfo(`Updating todo ...`);
-        logInfo(`\t${isComplete}`);
         await existingTodo.updateOne({
             title: todoName,
             description: todoDescription,

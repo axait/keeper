@@ -2,51 +2,58 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 type Todo = {
-    _id: string;
-    parentCategoryId: string;
-    title: string;
-    description?: string;
-    isComplete: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    createdAt: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    updatedAt: any;
+  _id: string;
+  parentCategoryId: string;
+  title: string;
+  description?: string;
+  isComplete: boolean;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 };
 
 type TodoState = {
-    todos: Todo[];
-    addTodo: (newTodos: Todo[]) => void;
-    setTodos: (newTodos: Todo[]) => void;
-    toggleTodo: (id: string) => void;
-    removeTodo: (id: string) => void;
+  todos: Todo[];
+  addTodos: (newTodos: Todo[]) => void;
+  setTodos: (newTodos: Todo[]) => void;
+  updateTodo: (newTodo: Todo) => void;
+  toggleTodo: (id: string) => void;
+  removeTodo: (id: string) => void;
 };
 
 export const useTodoStore = create<TodoState>()(
-    persist(
-        (set) => ({
-            todos: [],
+  persist(
+    (set) => ({
+      todos: [],
 
-            addTodo: (newTodos: Todo[]) =>
-                set((state) => ({
-                    todos: [...state.todos, ...newTodos],
-                })),
-            setTodos: (newTodos: Todo[]) =>
-                set(() => ({
-                    todos: [...newTodos],
-                })),
+      addTodos: (newTodos) =>
+        set((state) => ({
+          todos: [...state.todos, ...newTodos],
+        })),
 
-            toggleTodo: (id: string) =>
-                set((state) => ({
-                    todos: state.todos.map((t) =>
-                        t._id === id ? { ...t, completed: !t.isComplete } : t
-                    ),
-                })),
+      setTodos: (newTodos) =>
+        set(() => ({
+          todos: [...newTodos],
+        })),
 
-            removeTodo: (id: string) =>
-                set((state) => ({
-                    todos: state.todos.filter((todo) => todo._id !== id),
-                })),
-        }),
-        { name: 'todo-storage', } // key in localStorage)
-    )
+      updateTodo: (newTodo) =>
+        set((state) => ({
+          todos: state.todos.map((t) =>
+            t._id === newTodo._id ? { ...t, ...newTodo } : t
+          ),
+        })),
+
+      toggleTodo: (id) =>
+        set((state) => ({
+          todos: state.todos.map((t) =>
+            t._id === id ? { ...t, isComplete: !t.isComplete } : t
+          ),
+        })),
+
+      removeTodo: (id) =>
+        set((state) => ({
+          todos: state.todos.filter((todo) => todo._id !== id),
+        })),
+    }),
+    { name: 'todo-storage' } // key in localStorage
+  )
 );

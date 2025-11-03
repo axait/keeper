@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, } from 'react';
 import FilterBar from './FilterBar';
 import Todo from './Todo';
-import { TodosType } from '@/types/TodosType';
 import "@/styles/todo_list.scss";
-import axios from 'axios';
 import { useTodoStore } from '@/store/useTodoStore';
+import { fetchTodos } from '@/lib/fetchTodos';
 
 
 const TodoList = () => {
@@ -46,11 +45,10 @@ const TodoList = () => {
   useEffect(() => {
     const getTodos = async () => {
       try {
-        console.log("🔍 Fetching todos...");
-        const res = await axios.post("/api/todo/getAll");
-        const data = await res.data.data;
+        
+        const data = await fetchTodos();
         setTodos(data);
-        console.log("✅ Todos fetched:", data);
+        // console.log("✅ Todos fetched:", data);
       } catch (error) {
         console.error("❌ Error fetching todos:", error);
       }

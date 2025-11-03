@@ -3,13 +3,16 @@
 import React, { useState } from 'react'
 import "@/styles/Todo.scss";
 import "@/styles/InputField.scss";
+import axios from 'axios';
+import { useTodoStore } from '@/store/useTodoStore';
+import { fetchTodos } from '@/lib/fetchTodos';
 
 
 type TodoTypeHere = {
     _id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | Date,
     isComplete: boolean
 }
 
@@ -17,8 +20,27 @@ type TodoTypeHere = {
 function Todo({ _id, title, description, createdAt, isComplete }: TodoTypeHere) {
 
     const [isExpanded, setIsExpanded] = useState(false);
+    const { toggleTodo } = useTodoStore();
 
-    // console.log(key)
+    const handleTodoToggle = async () => {
+        try {
+            const updatedTodo = {
+                todoId: _id,
+                todoName: title,
+                todoDescription: description,
+                isComplete: !isComplete
+            };
+
+            await axios.post('/api/todo/update', JSON.stringify({ ...updatedTodo }));
+
+            toggleTodo(_id); // <-- updates Zustand store directly
+        } catch (err) {
+            console.error('Failed to toggle todo', err);
+        }
+    };
+
+
+
     return (
         <>
             {/* COMPLETE TODO FOR DETAIL KEEPER */}
@@ -41,7 +63,7 @@ function Todo({ _id, title, description, createdAt, isComplete }: TodoTypeHere) 
                         form-control
                         ml-3
                     ">
-                        <input type="checkbox" name="checkbox" />
+                        <input onClick={handleTodoToggle} type="checkbox" name="checkbox" defaultChecked={isComplete} />
                     </label>
                     {/* ---------------- */}
 
@@ -75,8 +97,8 @@ function Todo({ _id, title, description, createdAt, isComplete }: TodoTypeHere) 
                         </div>
                         {/* -------DATE&TIME_END----- */}
                     </div>
-                    {/* -------STATUS_BAR_END----- */}
                 </div>
+                {/* -------STATUS_BAR_END----- */}
 
                 {/* Bottom Area */}
                 <div

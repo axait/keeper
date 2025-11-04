@@ -42,11 +42,12 @@ const PrompterGetter = () => {
 
     return (
         <div className="flex justify-center fixed bottom-3 w-full"
-            onMouseOver={() => { setDisplayNone('') }}
-            onFocus={() => { setDisplayNone('') }}
             onMouseLeave={() => { setDisplayNone('display-none') }}
         >
             <div
+                onMouseOver={() => { setDisplayNone('') }}
+                onFocus={() => { setDisplayNone('') }}
+
                 className="
                 flex flex-col
                 w-[96vw] md:w-[63%]
@@ -61,9 +62,9 @@ const PrompterGetter = () => {
                     <input
                         type="title"
                         onFocus={() => { setDisplayNone('') }}
-                        onChange={(e) => { 
+                        onChange={(e) => {
                             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                            e.target.value === "" ? setDisplayNone('display-none') : setDisplayNone('') 
+                            e.target.value === "" ? setDisplayNone('display-none') : setDisplayNone('')
                             setTitle(e.target.value)
                         }}
                         value={titleState}
@@ -84,9 +85,7 @@ const PrompterGetter = () => {
                     <textarea
                         ref={textAreaDescriptionRef}
                         onInput={handleDecriptTestAreaInput}
-                        onChange={(e) => { 
-                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                            e.target.value === "" ? setDisplayNone('display-none') : setDisplayNone('') 
+                        onChange={(e) => {
                             setDescription(e.target.value)
                         }}
                         value={descriptionState}

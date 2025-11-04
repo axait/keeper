@@ -1,9 +1,12 @@
+import connectToDB from "@/lib/connectToDB";
 import { logError, logErrorSerious, logProcessing, logSuccess } from "@/lib/log";
 import { responseFailure, responseSuccess } from "@/lib/response";
 import { todoModel } from "@/models/todo.model";
 
 export async function POST(req: Request) {
 
+    await connectToDB();
+    
     const userId = req.headers.get("x-user-id");
     let parentCategoryId: string = '';
 

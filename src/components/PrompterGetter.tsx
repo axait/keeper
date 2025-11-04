@@ -1,7 +1,24 @@
-import React, { useRef } from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import "@/styles/PrompterGetter.scss";
+
 
 const PrompterGetter = () => {
     const textAreaDescriptionRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const [displayNone, setDisplayNone] = useState<string>('display-none')
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>()
+    const [categoriesState, setCategoriesState] = useState<{ _id: string, title: string }[]>([])
+
+    const [titleState, setTitle] = useState<string>('');
+    const [descriptionState, setDescription] = useState<string>('');
+
+
+    const handleCategorySelection = () => {
+        return 0;
+    }
 
     const handleDecriptTestAreaInput = () => {
         const textarea = textAreaDescriptionRef.current;
@@ -14,12 +31,25 @@ const PrompterGetter = () => {
         textarea.style.height = Math.min(textarea.scrollHeight, 250) + "px";
     };
 
+    useEffect(() => {
+        setCategoriesState([
+            { _id: "hello", title: "title" },
+            { _id: "hellos", title: "tisstle" }
+        ])
+
+    }, [])
+
+
     return (
-        <div className="flex justify-center fixed bottom-3 w-full">
+        <div className="flex justify-center fixed bottom-3 w-full"
+            onMouseOver={() => { setDisplayNone('') }}
+            onFocus={() => { setDisplayNone('') }}
+            onMouseLeave={() => { setDisplayNone('display-none') }}
+        >
             <div
                 className="
                 flex flex-col
-                w-[96%] md:w-[63%]
+                w-[96vw] md:w-[63%]
                 px-4 py-2
                 rounded-xl
                 shadow-md shadow-white/20
@@ -27,9 +57,16 @@ const PrompterGetter = () => {
                 "
             >
                 <div className="flex flex-col">
-                    <label className="text-sm font-bold">Title</label>
+                    <label className={`text-sm font-bold ${displayNone}`} >Title</label>
                     <input
-                        type="text"
+                        type="title"
+                        onFocus={() => { setDisplayNone('') }}
+                        onChange={(e) => { 
+                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                            e.target.value === "" ? setDisplayNone('display-none') : setDisplayNone('') 
+                            setTitle(e.target.value)
+                        }}
+                        value={titleState}
                         className="
                         text-[0.85rem]
                         outline-0
@@ -39,19 +76,25 @@ const PrompterGetter = () => {
                     />
                 </div>
 
-                <hr className="my-4" />
+                <hr className={`my-4  ${displayNone}`} />
 
-                <div className="flex flex-col">
+                <div className={`flex flex-col  ${displayNone}`}>
                     <label className="text-sm font-bold">Description</label>
 
                     <textarea
                         ref={textAreaDescriptionRef}
                         onInput={handleDecriptTestAreaInput}
+                        onChange={(e) => { 
+                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                            e.target.value === "" ? setDisplayNone('display-none') : setDisplayNone('') 
+                            setDescription(e.target.value)
+                        }}
+                        value={descriptionState}
                         className="
                         text-[0.85rem]
                         outline-0
                         p-2
-                        min-h-[100px]
+                        min-h-[50px]
                         max-h-[250px]
                         resize-none
                         overflow-auto
@@ -59,10 +102,48 @@ const PrompterGetter = () => {
                         placeholder="Write Description Here ..."
                     />
                 </div>
-            </div>
-        category selector and upload (save) btn
 
-            <div className="flex justify-end"></div>
+                <div className={`flex justify-between  ${displayNone}`}>
+
+                    <div className='badge badge-soft badge-primary' >
+                        <select
+                            className="text-[0.85rem] p-2 outline-0 w-20"
+                            value={selectedCategoryId}
+                            onChange={(e) => setSelectedCategoryId(e.target.value)}
+                        >
+                            {categoriesState.map((category) => (
+                                <option key={category._id} value={category._id}>
+                                    @{category.title}
+                                </option>
+                            ))}
+                        </select>
+
+                    </div>
+
+                    <button
+                        className="
+                        text-white
+                        bg-[#39393992]
+                        hover:bg-[#4f46e5]
+                        rounded-full
+                        btn-circle
+                        p-1
+                        ml-2
+                        "
+                        style={{ transition: 'all 0.2s ease-in-out' }}
+
+                        onClick={handleCategorySelection}
+                    >
+                        <Image src="/arrow_upload.png"
+                            className='cursor-pointer'
+                            alt="avatar"
+                            width={26} height={26} />
+                    </button>
+                </div>
+
+                {/* have a dropdown here which reads the categoriesState and then show them to select and also there is btn at this right side which is reponsible of sending this input to server */}
+                <div className="flex justify-end"></div>
+            </div>
         </div>
     );
 };

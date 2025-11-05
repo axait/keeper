@@ -24,7 +24,7 @@ const MyFooter = () => {
             <div
                 className='
             flex items-center justify-around
-            relative bottom-[0]
+            relative bottom-0
             bg-[#512fa754]
             min-h-[120px] w-full
             '

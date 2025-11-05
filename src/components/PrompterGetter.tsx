@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import "@/styles/PrompterGetter.scss";
+import { useCategoryStore } from '@/store/useCategoryStore';
 
 
 const PrompterGetter = () => {
@@ -10,10 +11,11 @@ const PrompterGetter = () => {
 
     const [displayNone, setDisplayNone] = useState<string>('display-none')
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>()
-    const [categoriesState, setCategoriesState] = useState<{ _id: string, title: string }[]>([])
 
     const [titleState, setTitle] = useState<string>('');
     const [descriptionState, setDescription] = useState<string>('');
+
+    const { categories } = useCategoryStore();
 
 
     const handleCategorySelection = () => {
@@ -30,14 +32,6 @@ const PrompterGetter = () => {
         // Then set new height up to 250px
         textarea.style.height = Math.min(textarea.scrollHeight, 250) + "px";
     };
-
-    useEffect(() => {
-        setCategoriesState([
-            { _id: "hello", title: "title" },
-            { _id: "hellos", title: "tisstle" }
-        ])
-
-    }, [])
 
 
     return (
@@ -110,7 +104,7 @@ const PrompterGetter = () => {
                             value={selectedCategoryId}
                             onChange={(e) => setSelectedCategoryId(e.target.value)}
                         >
-                            {categoriesState.map((category) => (
+                            {categories.map((category) => (
                                 <option key={category._id} value={category._id}>
                                     @{category.title}
                                 </option>

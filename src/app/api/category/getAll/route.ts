@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
         const allCategory = await categoryModel.find({ createdBy: userId });
 
-        logSuccess(`Toall  ${allCategory} Categories`);
+        logSuccess(`Toall  ${allCategory.length} Categories`);
 
         return responseSuccess("Category Updated Successfully", allCategory);
     } catch (error) {

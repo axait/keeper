@@ -13,7 +13,7 @@ import { set } from "mongoose";
 export function MySideBar() {
     // const [isCollapsed, setIsCollapsed] = useState(true);
     const { categories, setCategory, addCategory } = useCategoryStore();
-    const [isCollapsed, setIsCollapsed] = useState(true)
+    const [isCollapsed, setIsCollapsed] = useState(false)
     const [collapsedClasses, setCollapsedClasses] = useState('')
 
 

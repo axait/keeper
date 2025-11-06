@@ -17,6 +17,7 @@ type CategoryState = {
   addCategory: (newCategory: CategoryType[]) => void;
   setCategory: (newCategory: CategoryType[]) => void;
   removeCategory: (id: string) => void;
+  removeAllCategory: () => void;
 };
 
 export const useCategoryStore = create<CategoryState>()(
@@ -38,6 +39,11 @@ export const useCategoryStore = create<CategoryState>()(
       removeCategory: (id) =>
         set((state) => ({
           categories: state.categories.filter((category) => category._id !== id),
+        })),
+
+      removeAllCategory: () =>
+        set(() => ({
+          categories: [],
         })),
     }),
     // { name: 'todo-storage' } // key in localStorage

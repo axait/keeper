@@ -7,6 +7,8 @@ import { z } from 'zod';
 import "@/styles/PrompterGetter.scss";
 import { useToastStore } from '@/store/useToastStore';
 import axios from 'axios';
+import { useTodoStore } from '@/store/useTodoStore';
+import { fetchTodos } from '@/lib/fetchTodos';
 
 
 const PrompterGetter = () => {
@@ -24,11 +26,12 @@ const PrompterGetter = () => {
     const [displayNone, setDisplayNone] = useState<string>('display-none')
 
     // to get all categories list from store
-    const { categories } = useCategoryStore();
+    const { categories  } = useCategoryStore();
     const { addToast } = useToastStore();
+    const { setTodos } = useTodoStore();
 
 
-    const handleTodoSaver = () => {
+    const handleTodoSaver = async () => {
         const todoSchema = z.object({
             title: z.string()
                 .min(1, "Title is required")
@@ -62,6 +65,13 @@ const PrompterGetter = () => {
         ))
             .then((res) => {
                 addToast(res.data.message)
+                fetchTodos()
+                .then((data) => {
+                    setTodos(data)
+                })
+                setTitle('')
+                setDescription('')
+                setSelectedCategoryId('')
             })
             .catch((error) => {
                 addToast(error)

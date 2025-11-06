@@ -18,6 +18,7 @@ type TodoState = {
   updateTodo: (newTodo: Todo) => void;
   toggleTodo: (id: string) => void;
   removeTodo: (id: string) => void;
+  removeAllTodo: () => void;
 };
 
 export const useTodoStore = create<TodoState>()(
@@ -52,6 +53,11 @@ export const useTodoStore = create<TodoState>()(
       removeTodo: (id) =>
         set((state) => ({
           todos: state.todos.filter((todo) => todo._id !== id),
+        })),
+
+      removeAllTodo: () =>
+        set(() => ({
+          todos: [],
         })),
     }),
     // { name: 'todo-storage' } // key in localStorage

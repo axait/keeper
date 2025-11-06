@@ -1,3 +1,4 @@
+import connectToDB from "@/lib/connectToDB";
 import { logErrorSerious, logInfo, logSuccess } from "@/lib/log";
 import { responseFailure, responseSuccess } from "@/lib/response";
 import { categoryModel } from "@/models/category.model";
@@ -11,6 +12,7 @@ export async function POST(req: Request) {
 
     try {
         logInfo(`Fetching all categories ...`);
+        await connectToDB();
 
         const allCategory = await categoryModel.find({ createdBy: userId });
 

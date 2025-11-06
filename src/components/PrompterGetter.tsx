@@ -1,26 +1,74 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
-import "@/styles/PrompterGetter.scss";
 import { useCategoryStore } from '@/store/useCategoryStore';
+import { z } from 'zod';
+import "@/styles/PrompterGetter.scss";
+import { useToastStore } from '@/store/useToastStore';
+import axios from 'axios';
 
 
 const PrompterGetter = () => {
     const textAreaDescriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
-    const [displayNone, setDisplayNone] = useState<string>('display-none')
-    const [selectedCategoryId, setSelectedCategoryId] = useState<string>()
-
+    // data to save of todo
     const [titleState, setTitle] = useState<string>('');
     const [descriptionState, setDescription] = useState<string>('');
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string>()
 
+    // to Display Error On Screen.
+    // CREATE TOAST FOR IT.
+
+    // to handle prompter collapser
+    const [displayNone, setDisplayNone] = useState<string>('display-none')
+
+    // to get all categories list from store
     const { categories } = useCategoryStore();
+    const { addToast } = useToastStore();
 
 
-    const handleCategorySelection = () => {
-        return 0;
-    }
+    const handleTodoSaver = () => {
+        const todoSchema = z.object({
+            title: z.string()
+                .min(1, "Title is required")
+                .max(30, "Title cannot exceed 30 characters"),
+            description: z.string()
+                .max(80, "Description cannot exceed 80 characters")
+                .optional()
+                .nullable(),
+            selectedCategoryId: z.string().min(1, "Select a category"),
+        });
+
+        const result = todoSchema.safeParse({
+            title: titleState,
+            description: descriptionState,
+            selectedCategoryId,
+        });
+
+        if (!result.success) {
+            console.log(titleState, descriptionState, selectedCategoryId);
+            // console.log(result.error.message);
+            addToast(result.error.message);
+            return;
+        }
+        console.log("✅ Validation OK:", result.data);
+
+        axios.post('/api/todo/create', JSON.stringify({
+            parentCategoryId: selectedCategoryId,
+            todoName: titleState,
+            todoDescription: descriptionState
+        }
+        ))
+            .then((res) => {
+                addToast(res.data.message)
+            })
+            .catch((error) => {
+                addToast(error)
+            })
+    };
+
+
 
     const handleDecriptTestAreaInput = () => {
         const textarea = textAreaDescriptionRef.current;
@@ -36,7 +84,7 @@ const PrompterGetter = () => {
 
     return (
         <div className="flex justify-center fixed bottom-3 w-full"
-            onMouseLeave={() => { setDisplayNone('display-none') }}
+        // onMouseLeave={() => { setDisplayNone('display-none') }}
         >
             <div
                 onMouseOver={() => { setDisplayNone('') }}
@@ -101,6 +149,7 @@ const PrompterGetter = () => {
                     <div className='badge badge-soft badge-primary' >
                         <select
                             className="text-[0.85rem] p-2 outline-0 w-20"
+                            defaultValue={selectedCategoryId}
                             value={selectedCategoryId}
                             onChange={(e) => setSelectedCategoryId(e.target.value)}
                         >
@@ -125,7 +174,7 @@ const PrompterGetter = () => {
                         "
                         style={{ transition: 'all 0.2s ease-in-out' }}
 
-                        onClick={handleCategorySelection}
+                        onClick={handleTodoSaver}
                     >
                         <Image src="/arrow_upload.png"
                             className='cursor-pointer'
@@ -133,8 +182,6 @@ const PrompterGetter = () => {
                             width={26} height={26} />
                     </button>
                 </div>
-
-                {/* have a dropdown here which reads the categoriesState and then show them to select and also there is btn at this right side which is reponsible of sending this input to server */}
                 <div className="flex justify-end"></div>
             </div>
         </div>

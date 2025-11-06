@@ -1,3 +1,4 @@
+import connectToDB from "@/lib/connectToDB";
 import { logErrorSerious, logInfo, logSuccess } from "@/lib/log";
 import { responseFailure, responseSuccess } from "@/lib/response";
 import { categoryModel } from "@/models/category.model";
@@ -15,6 +16,8 @@ export async function POST(req: Request) {
     }
 
     try {
+        await connectToDB();
+        
         const existingCategory = await categoryModel.findById(categoryId);
         if (!existingCategory) {
             return responseFailure("Category does not exist");

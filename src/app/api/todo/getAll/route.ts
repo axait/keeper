@@ -33,7 +33,7 @@ export async function POST(req: Request) {
         const filter: { createdBy: string, parentCategoryId?: string } = { createdBy: userId };
         if (parentCategoryId) filter.parentCategoryId = parentCategoryId;
 
-        const allTodo = await todoModel.find(filter);
+        const allTodo = await todoModel.find(filter).sort({ _id: -1 });
 
         logSuccess(`Total  ${allTodo.length} Todo`);
 

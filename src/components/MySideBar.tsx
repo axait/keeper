@@ -1,5 +1,3 @@
-// ⁡⁢⁣⁢​‌‌‍𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲 𝗺𝗲 𝗙𝗜𝗥𝗦𝗧​⁡
-
 "use client";
 
 import Image from "next/image";
@@ -7,24 +5,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { CategoryType, useCategoryStore } from "@/store/useCategoryStore";
 import "@/styles/MySideBar.scss";
-import { set } from "mongoose";
 
 
 export function MySideBar() {
     // const [isCollapsed, setIsCollapsed] = useState(true);
-    const { categories, setCategory, addCategory } = useCategoryStore();
+    const { categories, setCategory } = useCategoryStore();
     const [isCollapsed, setIsCollapsed] = useState(false)
+    const [isCreateCategory, setIsCreateCategory] = useState(false)
     const [collapsedClasses, setCollapsedClasses] = useState('')
 
 
     const createCategory = () => {
-
+        setIsCreateCategory(true);
     }
 
     useEffect(() => {
         if (isCollapsed) {
             setCollapsedClasses('sidebar-collapsed')
-            
+
         } else {
             setCollapsedClasses('')
 
@@ -44,6 +42,12 @@ export function MySideBar() {
 
     return (
         <>
+            { 
+                isCreateCategory?
+                <MyCategoryCreator close={() => { setIsCreateCategory(false) }} />
+                :
+                ""
+            }
             <div className={`
                 absolute top-20 left-2
                 min-w-40 min-h-[85%]
@@ -72,7 +76,7 @@ export function MySideBar() {
                     />
                 </span>
                 <div
-                className={`${collapsedClasses}`}
+                    className={`${collapsedClasses}`}
                 >
                     <span
                         key="id"
@@ -134,3 +138,59 @@ export function MySideBar() {
         </>
     );
 }
+
+
+const MyCategoryCreator = ({ close }: { close: () => void }) => {
+    const { addCategory } = useCategoryStore();
+
+    return (
+        <div
+            className="
+            flex justify-center items-center
+            fixed top-0 left-0 
+            h-screen w-screen
+            bg-[#6548818d]
+            z-30
+            "
+        >
+            <div>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    const title = formData.get('title');
+
+                    if (title) {
+                        axios.post("/api/category/create", {
+                            categoryName: title,
+                            categoryDescription: "Nothing"
+                        })
+                        .then((res) => {
+                            if (res.data.success) {
+                                addCategory(res.data.data);
+                                close(); // ✅ CLOSE MODAL AFTER SUCCESS
+                            }
+                        })
+                        .catch((error) => console.log(error));
+                    }
+                }}>
+                    <input type="text" name="title" placeholder="Enter category name"
+                        className="px-4 py-2 my-1 mx-2 
+                        bg-[#594f6f82] 
+                        hover:bg-[#331d6582] 
+                        rounded-lg 
+                        textarea-sm font-sans" 
+                    />
+                    <button 
+                        type="submit" 
+                        className="px-4 py-2 my-1 mx-2 text-white bg-[#271c4182] hover:bg-[#331d6582] rounded-lg textarea-sm font-sans"
+                    >
+                        Create
+                    </button>
+                </form>
+            </div>
+        </div>
+    )
+}
+
+
+export default MySideBar
